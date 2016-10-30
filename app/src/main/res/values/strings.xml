@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MobileAgro</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_aceptar">Aceptar</string>
+    <string name="ErrorLoginPasswIncorrect">Login o password incorrectos</string>
+    <string name="Red_ISSUE">Error de red</string>
+    <string name="iniciar_proceso">Iniciar Proceso</string>
+</resources>
