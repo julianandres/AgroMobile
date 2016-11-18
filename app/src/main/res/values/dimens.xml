@@ -5,4 +5,11 @@
     <dimen name="sizesiss">25sp</dimen>
     <dimen name="padddd">5dp</dimen>
     <dimen name="measure_dime_profile">40dp</dimen>
+    <dimen name="login_card_elevation">10dp</dimen>
+    <dimen name="login_margin_big">30dp</dimen>
+    <dimen name="login_margin_small">10dp</dimen>
+    <dimen name="nav_user">180dp</dimen>
+    <dimen name="header_margin">10dp</dimen>
+    <dimen name="template_icon">26dp</dimen>
+    <dimen name="template_padding_small">10dp</dimen>
 </resources>

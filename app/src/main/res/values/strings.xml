@@ -6,4 +6,9 @@
     <string name="ErrorLoginPasswIncorrect">Login o password incorrectos</string>
     <string name="Red_ISSUE">Error de red</string>
     <string name="iniciar_proceso">Iniciar Proceso</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
+    <string name="welcome_txt">Bienvenido</string>
+    <string name="mis_procesos">Mis Procesos</string>
+    <string name="drawer_open">Menu lateral abierto</string>
+    <string name="drawer_close">Menu lateral cerrado</string>
 </resources>

@@ -1,11 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
+    <style name="CustomNavigationView" parent="Widget.Design.NavigationView">
+        <item name="android:listDivider">@color/nav_divider</item>
+        <item name="android:textColorSecondary">@color/nav_subheader_txt</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="ButtonAccent" parent="Widget.AppCompat.Button">
+        <item name="colorControlHighlight">@color/primaryDark</item>
+        <item name="colorButtonNormal">@color/primary</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="NoAppBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
 
 </resources>
