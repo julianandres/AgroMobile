@@ -43,6 +43,9 @@ import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperati
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
 
+    static final String KEY_USER="userId";
+    static final String KEY_USER_NAME="userName";
+    static final String KEY_USER_MAIL="userMail";
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     FloatingActionButton btnInitProces;
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         preferences= getSharedPreferences("pref",MODE_PRIVATE);
         editor=preferences.edit();
+
         String usLog=preferences.getString(LoginActivity.KEY_USER,"-1");
 
         btnInitProces= (FloatingActionButton) findViewById(R.id.fab);
@@ -93,8 +97,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ImageView userImage = (ImageView) nav.getHeaderView(0).findViewById(R.id.img_user);
         TextView userName = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_usr);
-
-        userName.setText(preferences.getString(AppUtil.USER_NAME,""));
+        TextView userMail = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_mail);
+        userName.setText(preferences.getString(KEY_USER_NAME,""));
+        userMail.setText(preferences.getString(KEY_USER_MAIL,""));
         String urlImage = preferences.getString(AppUtil.USER_IMG,"");
 
         Transformation transformation = new RoundedTransformationBuilder()
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.general_profile_menu, menu);
+        //getMenuInflater().inflate(R.menu.general_profile_menu, menu);
         return true;
     }
 
@@ -129,11 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SharedPreferences.Editor editor = getSharedPreferences(AppUtil.PREFERENCE_NAME,MODE_PRIVATE)
                         .edit();
 
-                editor.putBoolean(AppUtil.USER_LOGIN, false);
-
+                editor.putString(KEY_USER, "-1");
                 editor.commit();
-
-                Intent intent =  new Intent(this, MainActivity.class);
+                Intent intent =  new Intent(this, LoginActivity.class);
                 startActivity(intent);
 
                 finish();
@@ -157,12 +160,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_perfil) {
-            Intent intent = new Intent(this, ProfileActivity.class);
-            startActivity(intent);
-            finish();
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -172,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v.getId() == R.id.fab){
             Intent intent = new Intent(this, NewProcessActivity.class);
             startActivity(intent);
-            finish();
         }
     }
 

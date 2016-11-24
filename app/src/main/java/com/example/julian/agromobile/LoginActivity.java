@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     static final String KEY_USER="userId";
     static final String KEY_USER_NAME="userName";
+    static final String KEY_USER_MAIL="userMail";
 
     EditText login,password;
     Button btnAceptar;
@@ -140,9 +141,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //TODO shared preferences
                 editor.putString(KEY_USER, us.getLogin());
                 editor.putString(KEY_USER_NAME, us.getNombre());
+                editor.putString(KEY_USER_MAIL,us.getEmail());
                 editor.commit();
                 finish();
-                Intent intent = new Intent(this, ProcessActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             } else {
                 editor.putString(KEY_USER, "-1");
@@ -186,7 +188,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     for(int i=0;i<results.size();i++){
                         usuarios.add(results.get(i));
                     }
+                    if(usuarios.size()>0)
                     azureLogin = true;
+
+
                     System.out.println("hola123456");
 
                 } catch (Exception e){

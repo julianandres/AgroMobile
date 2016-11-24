@@ -11,4 +11,10 @@
     <string name="mis_procesos">Mis Procesos</string>
     <string name="drawer_open">Menu lateral abierto</string>
     <string name="drawer_close">Menu lateral cerrado</string>
+    <string name="profile_txt">Profile</string>
+    <string name="txtInfo">Informacion</string>
+    <string name="txtGuide">Guide</string>
+    <string name="txtCalculator">Calculator</string>
+    <string name="txtProfile">Profile</string>
+    <string name="rxtlogout">Logout</string>
 </resources>
