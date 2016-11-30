@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         btnAceptar.setOnClickListener(this);
         try {
             mClient = new MobileServiceClient(
-                    "https://agromovil.azurewebsites.net",
+                    "https://probemobileagro.azurewebsites.net",
                     this);
 
         } catch (MalformedURLException e) {

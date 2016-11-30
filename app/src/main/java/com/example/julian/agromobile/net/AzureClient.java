@@ -20,7 +20,7 @@ public abstract class AzureClient<T> implements TableOperationCallback<T>, Table
     MobileServiceClient client;
     public AzureClient(Context context){
         try {
-            client=new MobileServiceClient("https://agromovil.azurewebsites.net",context);
+            client=new MobileServiceClient("https://probemobileagro.azurewebsites.net",context);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

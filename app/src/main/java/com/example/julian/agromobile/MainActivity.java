@@ -131,9 +131,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.nav_logout:
 
-                SharedPreferences.Editor editor = getSharedPreferences(AppUtil.PREFERENCE_NAME,MODE_PRIVATE)
-                        .edit();
-
                 editor.putString(KEY_USER, "-1");
                 editor.commit();
                 Intent intent =  new Intent(this, LoginActivity.class);

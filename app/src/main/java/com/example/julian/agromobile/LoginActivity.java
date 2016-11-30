@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor=preferences.edit();
         try {
             mClient = new MobileServiceClient(
-                    "https://agromovil.azurewebsites.net",
+                    "https://probemobileagro.azurewebsites.net",
                     this);
 
         } catch (MalformedURLException e) {
@@ -216,8 +216,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         List<Usuario> result= new ArrayList<Usuario>();
         try {
-            result = mUserTable.where().field("complete").
-                    eq(val(false)).execute().get();
+            result = mUserTable.where().execute().get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
