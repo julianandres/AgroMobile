@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 public class ProcessActivity extends AppCompatActivity {
 
+    public static final String KEY_ID = "keyid" ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

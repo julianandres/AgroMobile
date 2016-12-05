@@ -3,6 +3,7 @@ package com.example.julian.agromobile;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 
 public class NewProcessActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
@@ -10,6 +11,8 @@ public class NewProcessActivity extends AppCompatActivity implements RadioGroup.
 
     private RadioGroup rdgGrupo;
     private int recurrency;
+    private EditText nombre;
+    private EditText duracionSemanas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +21,9 @@ public class NewProcessActivity extends AppCompatActivity implements RadioGroup.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rdgGrupo = (RadioGroup)findViewById(R.id.recurrence);
         rdgGrupo.setOnCheckedChangeListener(this);
+
+
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

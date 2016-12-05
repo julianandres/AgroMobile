@@ -10,4 +10,6 @@
     <color name="nav_header_txt">#ffffff</color>
     <color name="nav_subheader_txt">#aaaaaa</color>
     <color name="nav_divider">#888888</color>
+    <color name="onProccesColor">#FFA420</color>
+    <color name="offProccessColor">#11e211</color>
 </resources>

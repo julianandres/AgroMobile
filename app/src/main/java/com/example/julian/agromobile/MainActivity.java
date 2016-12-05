@@ -23,7 +23,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.julian.agromobile.adapters.ProcesosAdapter;
 import com.example.julian.agromobile.layoutmanagers.CustomGridLayoutManager;
+import com.example.julian.agromobile.models.Proceso;
 import com.example.julian.agromobile.models.Usuario;
 import com.example.julian.agromobile.util.AppUtil;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
@@ -35,13 +37,14 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, ProcesosAdapter.OnItemClick {
 
     static final String KEY_USER="userId";
     static final String KEY_USER_NAME="userName";
@@ -52,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     NavigationView nav;
     DrawerLayout drawer;
-
+    ProcesosAdapter procesoAdapter;
+    List<Proceso> dataProcces;
     ActionBarDrawerToggle toggle;
 
     RecyclerView recyclerView;
@@ -75,6 +79,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnInitProces= (FloatingActionButton) findViewById(R.id.fab);
         btnInitProces.setOnClickListener(this);
+        dataProcces = new ArrayList<>();
+
+        Proceso proceso1= new Proceso();
+        proceso1.setNombre("Proceso1");
+        proceso1.setState(false);
+        proceso1.setFechaInicio("332211");
+
+        Proceso proceso3= new Proceso();
+        proceso3.setNombre("Proceso3");
+        proceso3.setState(false);
+        proceso3.setFechaInicio("inicio");
+
+        Proceso proceso2= new Proceso();
+        proceso2.setNombre("Proceso2");
+        proceso2.setState(true);
+        proceso2.setFechaInicio("ssff");
+
+        dataProcces.add(proceso1);
+        dataProcces.add(proceso2);
+        dataProcces.add(proceso3);
+        procesoAdapter = new ProcesosAdapter(this,dataProcces);
 
 
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
@@ -83,7 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 , Color.argb(0xff, 0x00, 0x00, 0xff));
         System.out.println(usLog);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setAdapter(procesoAdapter);
         recyclerView.setLayoutManager(new CustomGridLayoutManager(this));
+        procesoAdapter.setOnItemClick(recyclerView,this);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer);
         drawer.setDrawerListener(this);
@@ -198,5 +225,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(this, ProcessActivity.class);
+        intent.putExtra(ProcessActivity.KEY_ID,dataProcces.get(position).getId());
+        startActivity(intent);
     }
 }
