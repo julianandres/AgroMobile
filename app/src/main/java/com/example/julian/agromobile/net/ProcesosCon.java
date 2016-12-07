@@ -1,11 +1,19 @@
 package com.example.julian.agromobile.net;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.julian.agromobile.models.Proceso;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
@@ -14,50 +22,80 @@ import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperati
  * Created by JULIAN on 07/12/2016.
  */
 
-public class ProcesosCon extends AzureClient<Proceso> implements TableQueryCallback<Proceso> {
+public class ProcesosCon {
 
-    ProcesoConI ProcesoConI;
 
-    public ProcesosCon(ProcesoConI ProcesoConI, Context context) {
-        super(context);
-        this.ProcesoConI = ProcesoConI;
-    }
-
-    public void getAllProcess() {
+    MobileServiceClient client;
+    Context con;
+    List<Proceso> result;
+    public ProcesosCon(ProcesoConI ProcesoConI,Context context){
+        con = context;
+        this.ProcesoConI=ProcesoConI;
         try {
-
-            getTable().where().field("complete").eq(val(false)).execute().get();
-            System.out.println("complete");
-        } catch (Exception e) {
+            client=new MobileServiceClient("https://agromobile.azurewebsites.net",context);
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
+    public interface ProcesoConI{
+        public void onReadCompleted(List<Proceso> result);
+        public void onRegisterCompleted();
+    }
 
-    @Override
+    ProcesoConI ProcesoConI;
+    public void insert(Proceso item){
+        ListenableFuture<Proceso> result = getTable().insert(item);
+        Futures.addCallback(result, new FutureCallback<Proceso>() {
+            @Override
+            public void onFailure(Throwable exc) {
+                Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(Proceso result) {
+                Toast.makeText(con, "Registro Completado"+ result.getNombre(), Toast.LENGTH_SHORT).show();
+                ProcesoConI.onRegisterCompleted();
+                //TODO COLOCAR UN MENSAJE DE ERROR EL CUAL DIGA QUE EXISTIÓ UN ERROR EN EL REGISTRO
+            }
+        });
+    }
+    public void update(Proceso item){
+
+        getTable().update(item);
+
+    }
+    public void delete(Proceso item){
+
+        getTable().delete(item);
+    }
+
+    public MobileServiceTable<Proceso> getTable(){
+        return client.getTable(Proceso.class);
+    }
+
+    public void getAllUsers(){
+        try {
+            ListenableFuture<MobileServiceList<Proceso>> result= getTable().where().field("complete").eq(val(false)).execute();
+            Futures.addCallback(result, new FutureCallback<List<Proceso>>() {
+                @Override
+                public void onFailure(Throwable exc) {
+                    Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(List<Proceso> result) {
+                    Toast.makeText(con, "Busqueda Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                    ProcesoConI.onReadCompleted(result);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public Class<Proceso> getClassModel() {
-        return Proceso.class;
+        return  Proceso.class;
     }
 
-    @Override
-    public void onCompleted(Exception exception, ServiceFilterResponse response) {
-        ProcesoConI.onDeleteComplete(exception, response);
-    }
-
-    @Override
-    public void onCompleted(Proceso entity, Exception exception, ServiceFilterResponse response) {
-        ProcesoConI.onComlete(entity, exception, response);
-    }
-
-    @Override
-    public void onCompleted(List<Proceso> result, int count, Exception exception, ServiceFilterResponse response) {
-        ProcesoConI.onReadCompleted(result, count, exception, response);
-    }
-
-    public interface ProcesoConI {
-        void onReadCompleted(List<Proceso> result, int count, Exception exception, ServiceFilterResponse response);
-
-        void onDeleteComplete(Exception exception, ServiceFilterResponse response);
-
-        void onComlete(Proceso entity, Exception exception, ServiceFilterResponse response);
-    }
 }

@@ -30,8 +30,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     List<Usuario> usuarios;
     UsuariosCon usercon;
     boolean azureLogin;
-    private MobileServiceClient mClient;
-    private MobileServiceTable<Usuario> mUserTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,72 +44,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         usuarios = new ArrayList<Usuario>();
         azureLogin = false;
         usercon = new UsuariosCon(this, this);
-      //  usercon.getAllUsers();
+        usercon.getAllUsers();
         btnAceptar.setOnClickListener(this);
-        try {
-            mClient = new MobileServiceClient(
-                    "https://probemobileagro.azurewebsites.net",
-                    this);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        mUserTable = mClient.getTable(Usuario.class);
-        refreshItemsFromTable();
-    }
-    private void refreshItemsFromTable() {
-        // Get the items that weren't marked as completed and add them in the
-        // adapter
-
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                try {
-                    final List<Usuario> results = refreshItemsFromMobileServiceTable();
-                    usuarios.clear();
-                    for(int i=0;i<results.size();i++){
-                        usuarios.add(results.get(i));
-                    }
-                    azureLogin = true;
-                    System.out.println("hola123456");
-                    //Offline Sync
-                    //final List<ToDoItem> results = refreshItemsFromMobileServiceTableSyncTable();
-
-
-                } catch (Exception e){
-
-                }
-
-                return null;
-            }
-        };
-
-        runAsyncTask(task);
-    }
-    private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            return task.execute();
-        }
-    }
-
-    private List<Usuario> refreshItemsFromMobileServiceTable()  {
-
-        List<Usuario> result= null;
-        try {
-            result = mUserTable.where().field("complete").
-                    eq(val(false)).execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("hola");
-        return result;
+        
     }
     @Override
     public void onClick(View v) {
@@ -151,9 +86,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 us.setNombre(nombre.getText().toString());
                                 us.setTipo("cliente");
                                 usercon.insert(us);
-                                //sercon.getAllUsers();
-                                refreshItemsFromTable();
-                                finish();
+                                //usercon.getAllUsers();
                                 //mongo.insertDocument(us,this);
                                 //mongo.findAllDocuments(this);
                                 // NavigationService.Navigate(new Uri("/IniciarSesion.xaml", UriKind.Relative));
@@ -176,23 +109,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         }
     }
-
     @Override
-    public void onReadCompleted(List<Usuario> result, int count, Exception exception, ServiceFilterResponse response) {
+    public void onReadCompleted(List<Usuario> result) {
         usuarios.clear();
+        azureLogin = true;
         for(int i=0;i<result.size();i++){
             usuarios.add(result.get(i));
         }
     }
 
     @Override
-    public void onDeleteComplete(Exception exception, ServiceFilterResponse response) {
-
+    public void onRegisterCompleted() {
+        finish();
     }
-
-    @Override
-    public void onComlete(Usuario entity, Exception exception, ServiceFilterResponse response) {
-
-    }
-
 }

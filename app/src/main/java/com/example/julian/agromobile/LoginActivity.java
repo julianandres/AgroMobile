@@ -41,8 +41,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     boolean azureLogin;
-    private MobileServiceClient mClient;
-    private MobileServiceTable<Usuario> mUserTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,25 +51,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnAceptar = (Button) findViewById(R.id.btn_aceptar);
         usuarios= new ArrayList<Usuario>();
         btnAceptar.setOnClickListener(this);
+        btnAceptar.setEnabled(false);
         usuariosCon=new UsuariosCon(this,this);
-        //usuariosCon.getAllUsers();
+        usuariosCon.getAllUsers();
         preferences= getSharedPreferences("pref",MODE_PRIVATE);
         editor=preferences.edit();
-        try {
-            mClient = new MobileServiceClient(
-                    "https://probemobileagro.azurewebsites.net",
-                    this);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        mUserTable = mClient.getTable(Usuario.class);
-        refreshItemsFromTable();
+       // refreshItemsFromTable();
     }
     @Override
     protected void onResume() {
-        //usuariosCon.getAllUsers();
-        refreshItemsFromTable();
+        usuariosCon.getAllUsers();
+        //refreshItemsFromTable();
         super.onResume();
     }
 
@@ -83,8 +73,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onRestart() {
-        //usuariosCon.getAllUsers();
-        refreshItemsFromTable();
+        usuariosCon.getAllUsers();
+        //refreshItemsFromTable();
         super.onRestart();
     }
 
@@ -116,8 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if(usuarios.size()==0)
         {
-            //usuariosCon.getAllUsers();
-            refreshItemsFromTable();
+            usuariosCon.getAllUsers();
         }
         Usuario us= new Usuario();
         boolean validate=false;
@@ -161,75 +150,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onReadCompleted(List<Usuario> result, int count, Exception exception, ServiceFilterResponse response) {
+    public void onReadCompleted(List<Usuario> result) {
         usuarios.clear();
+        azureLogin = true;
+        btnAceptar.setEnabled(true);
         for(int i=0;i<result.size();i++){
             usuarios.add(result.get(i));
         }
+        System.out.println("es el onreadcomplete");
     }
 
     @Override
-    public void onDeleteComplete(Exception exception, ServiceFilterResponse response) {
+    public void onRegisterCompleted() {
 
     }
-
-    @Override
-    public void onComlete(Usuario entity, Exception exception, ServiceFilterResponse response) {
-
-    }
-    private void refreshItemsFromTable() {
-
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                try {
-                    final List<Usuario> results = refreshItemsFromMobileServiceTable();
-                    usuarios.clear();
-                    for(int i=0;i<results.size();i++){
-                        usuarios.add(results.get(i));
-                    }
-                    if(usuarios.size()>0)
-                    azureLogin = true;
-
-
-                    System.out.println("hola123456");
-
-                } catch (Exception e){
-
-                }
-
-                return null;
-            }
-        };
-
-        runAsyncTask(task);
-    }
-    private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            return task.execute();
-        }
-    }
-
-    private List<Usuario> refreshItemsFromMobileServiceTable()  {
-
-        List<Usuario> result= new ArrayList<Usuario>();
-        try {
-            System.out.println("hola");
-            result = mUserTable.where().execute().get();
-            System.out.println("hola");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("hola");
-        return result;
-    }
-
-
 }
