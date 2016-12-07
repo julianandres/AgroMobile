@@ -1,11 +1,19 @@
 package com.example.julian.agromobile.net;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.julian.agromobile.models.SubProceso;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
@@ -14,49 +22,86 @@ import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperati
  * Created by JULIAN on 07/12/2016.
  */
 
-public class SubProcesosCon extends AzureClient<SubProceso> implements TableQueryCallback<SubProceso> {
+public class SubProcesosCon {
+
+    MobileServiceClient client;
+    Context con;
+    List<SubProceso> result;
     SubProcesoConI SubProcesoConI;
 
     public SubProcesosCon(SubProcesoConI SubProcesoConI, Context context) {
-        super(context);
+        con = context;
         this.SubProcesoConI = SubProcesoConI;
-    }
-
-    public void getAllSubProcess() {
         try {
-
-            getTable().where().field("complete").eq(val(false)).execute().get();
-            System.out.println("complete");
-        } catch (Exception e) {
+            client = new MobileServiceClient("https://agromobile.azurewebsites.net", context);
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+    public void insert(SubProceso item) {
+        ListenableFuture<SubProceso> result = getTable().insert(item);
+        Futures.addCallback(result, new FutureCallback<SubProceso>() {
+            @Override
+            public void onFailure(Throwable exc) {
+                Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(SubProceso result) {
+                Toast.makeText(con, "Registro Completado" + result.getNombre(), Toast.LENGTH_SHORT).show();
+                SubProcesoConI.onRegisterCompleted();
+                //TODO COLOCAR UN MENSAJE DE ERROR EL CUAL DIGA QUE EXISTIÓ UN ERROR EN EL REGISTRO
+            }
+        });
+    }
+
+    public void update(SubProceso item) {
+
+        getTable().update(item);
+
+    }
+
+    public void delete(SubProceso item) {
+
+        getTable().delete(item);
+    }
+
+    public MobileServiceTable<SubProceso> getTable() {
+        return client.getTable(SubProceso.class);
+    }
+
+    public void getAllUsers() {
+        try {
+            ListenableFuture<MobileServiceList<SubProceso>> result = getTable().where().field("complete").eq(val(false)).execute();
+            Futures.addCallback(result, new FutureCallback<List<SubProceso>>() {
+                @Override
+                public void onFailure(Throwable exc) {
+                    Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(List<SubProceso> result) {
+                    Toast.makeText(con, "Busqueda Completada con " + result.size(), Toast.LENGTH_SHORT).show();
+                    SubProcesoConI.onReadCompleted(result);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public Class<SubProceso> getClassModel() {
         return SubProceso.class;
     }
 
-    @Override
-    public void onCompleted(Exception exception, ServiceFilterResponse response) {
-        SubProcesoConI.onDeleteComplete(exception, response);
-    }
-
-    @Override
-    public void onCompleted(SubProceso entity, Exception exception, ServiceFilterResponse response) {
-        SubProcesoConI.onComlete(entity, exception, response);
-    }
-
-    @Override
-    public void onCompleted(List<SubProceso> result, int count, Exception exception, ServiceFilterResponse response) {
-        SubProcesoConI.onReadCompleted(result, count, exception, response);
-    }
-
     public interface SubProcesoConI {
-        void onReadCompleted(List<SubProceso> result, int count, Exception exception, ServiceFilterResponse response);
+        public void onReadCompleted(List<SubProceso> result);
 
-        void onDeleteComplete(Exception exception, ServiceFilterResponse response);
-
-        void onComlete(SubProceso entity, Exception exception, ServiceFilterResponse response);
+        public void onRegisterCompleted();
     }
+
+
+
 }
