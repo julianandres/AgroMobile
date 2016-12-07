@@ -26,17 +26,12 @@
         android:text="Número de pruebas"/>
     <RadioGroup
         android:id="@+id/recurrence"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkedButton="@+id/rdbOne"
         android:layout_column="0"
-        android:layout_span="3">
-        <RadioButton
-            android:id="@+id/rdbOne"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"/>
+        android:layout_span="3"
+        android:checkedButton="@+id/rdbOne"
+        android:orientation="horizontal">
         <RadioButton
             android:id="@+id/rdbTwo"
             android:layout_width="wrap_content"
@@ -47,8 +42,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3"/>
+
+        <RadioButton
+            android:id="@+id/rdbFourth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4" />
     </RadioGroup>
     <Button
+        android:id="@+id/btn_save_process"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"/>

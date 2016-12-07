@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.example.julian.agromobile.models.Usuario;
 import com.example.julian.agromobile.net.UsuariosCon;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
@@ -38,9 +40,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     List<Usuario> usuarios;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    boolean azureLogin;
     private MobileServiceClient mClient;
     private MobileServiceTable<Usuario> mUserTable;
-    boolean azureLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,7 +218,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         List<Usuario> result= new ArrayList<Usuario>();
         try {
+            System.out.println("hola");
             result = mUserTable.where().execute().get();
+            System.out.println("hola");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

@@ -21,19 +21,12 @@ import java.util.List;
 
 public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    public interface OnItemClick{
-        void onItemClick(int position);
-    }
-
     static final int VIEW_SPAN = 0;
     static final int VIEW_NOSPAN = 1;
-
     Context context;
     List<Proceso> data;
     RecyclerView recyclerView;
     OnItemClick onItemClick;
-
-
     public ProcesosAdapter(Context context,List<Proceso> data) {
         this.context = context;
         this.data = data;
@@ -66,7 +59,7 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(holder instanceof ProcesoSpanViewHolder ){
             ProcesoSpanViewHolder spanHolder = (ProcesoSpanViewHolder) holder;
             spanHolder.nombre.setText(p.getNombre());
-            spanHolder.fecha.setText(p.getFechaInicio());
+            spanHolder.fecha.setText(p.getFechaInicio().toString());
 
             if(p.isState()){
                 spanHolder.estado.setText("EnProcesamiento");
@@ -82,7 +75,7 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }else {
             ProcesoViewHolder pHolder = (ProcesoViewHolder) holder;
             pHolder.nombre.setText(p.getNombre());
-            pHolder.fecha.setText(p.getFechaInicio());
+            pHolder.fecha.setText(p.getFechaInicio().toString());
 
             if(p.isState()){
                 pHolder.estado.setText("EnProcesamiento");
@@ -108,6 +101,23 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return VIEW_NOSPAN;
     }
 
+    public void setOnItemClick(RecyclerView recyclerView, OnItemClick onItemClick) {
+        this.recyclerView = recyclerView;
+        this.onItemClick = onItemClick;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = recyclerView.getChildAdapterPosition(v);
+        onItemClick.onItemClick(position);
+    }
+
+    public interface OnItemClick {
+        void onItemClick(int position);
+    }
+    //endregion
+
+    //region OnItemClick Event
 
     //region ViewHolders
     public class ProcesoSpanViewHolder extends RecyclerView.ViewHolder{
@@ -134,20 +144,6 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             estado = (TextView) itemView.findViewById(R.id.template_state);
             fecha = (TextView) itemView.findViewById(R.id.template_date);
         }
-    }
-    //endregion
-
-    //region OnItemClick Event
-
-    public void setOnItemClick(RecyclerView recyclerView, OnItemClick onItemClick){
-        this.recyclerView = recyclerView;
-        this.onItemClick = onItemClick;
-    }
-
-    @Override
-    public void onClick(View v) {
-        int position = recyclerView.getChildAdapterPosition(v);
-        onItemClick.onItemClick(position);
     }
     //endregion 
 }

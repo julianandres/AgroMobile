@@ -1,5 +1,7 @@
 package com.example.julian.agromobile.models;
 
+import java.util.Date;
+
 /**
  * Created by JULIAN on 30/11/2016.
  */
@@ -8,24 +10,15 @@ public class Proceso {
 
     private String id;
     private String nombre;
-    private String fechaInicio;
-    private String tipoCultivo;
-    private String duracionSemanas;
+    private Date fechaInicio;
+    private int duracionSemanas;
     private int numeroSubprocesos;
     private boolean state;
-    private String fechaFin;
+    private Date fechaFin;
     private int subProcesoActual;
 
     public String getId() {
         return id;
-    }
-
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
     }
 
     public void setId(String id) {
@@ -40,27 +33,19 @@ public class Proceso {
         this.nombre = nombre;
     }
 
-    public String getFechaInicio() {
+    public Date getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(String fechaInicio) {
+    public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getTipoCultivo() {
-        return tipoCultivo;
-    }
-
-    public void setTipoCultivo(String tipoCultivo) {
-        this.tipoCultivo = tipoCultivo;
-    }
-
-    public String getDuracionSemanas() {
+    public int getDuracionSemanas() {
         return duracionSemanas;
     }
 
-    public void setDuracionSemanas(String duracionSemanas) {
+    public void setDuracionSemanas(int duracionSemanas) {
         this.duracionSemanas = duracionSemanas;
     }
 
@@ -72,11 +57,19 @@ public class Proceso {
         this.numeroSubprocesos = numeroSubprocesos;
     }
 
-    public String getFechaFin() {
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
+
+    public Date getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(String fechaFin) {
+    public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -87,6 +80,4 @@ public class Proceso {
     public void setSubProcesoActual(int subProcesoActual) {
         this.subProcesoActual = subProcesoActual;
     }
-
-
 }

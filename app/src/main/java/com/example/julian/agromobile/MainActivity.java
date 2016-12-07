@@ -38,6 +38,7 @@ import com.squareup.picasso.Transformation;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -84,17 +85,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Proceso proceso1= new Proceso();
         proceso1.setNombre("Proceso1");
         proceso1.setState(false);
-        proceso1.setFechaInicio("332211");
+        proceso1.setFechaInicio(new Date());
 
         Proceso proceso3= new Proceso();
         proceso3.setNombre("Proceso3");
         proceso3.setState(false);
-        proceso3.setFechaInicio("inicio");
+        proceso3.setFechaInicio(new Date());
 
         Proceso proceso2= new Proceso();
         proceso2.setNombre("Proceso2");
         proceso2.setState(true);
-        proceso2.setFechaInicio("ssff");
+        proceso2.setFechaInicio(new Date());
 
         dataProcces.add(proceso1);
         dataProcces.add(proceso2);
