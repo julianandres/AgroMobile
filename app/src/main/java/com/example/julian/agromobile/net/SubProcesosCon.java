@@ -49,8 +49,8 @@ public class SubProcesosCon {
 
             @Override
             public void onSuccess(SubProceso result) {
-                Toast.makeText(con, "Registro Completado" + result.getNombre(), Toast.LENGTH_SHORT).show();
-                SubProcesoConI.onRegisterCompleted();
+               // Toast.makeText(con, "Registro Completado" + result.getNombre(), Toast.LENGTH_SHORT).show();
+                SubProcesoConI.onRegisterSubProcessCompleted();
                 //TODO COLOCAR UN MENSAJE DE ERROR EL CUAL DIGA QUE EXISTIÓ UN ERROR EN EL REGISTRO
             }
         });
@@ -82,8 +82,8 @@ public class SubProcesosCon {
 
                 @Override
                 public void onSuccess(List<SubProceso> result) {
-                    Toast.makeText(con, "Busqueda Completada con " + result.size(), Toast.LENGTH_SHORT).show();
-                    SubProcesoConI.onReadCompleted(result);
+                    //Toast.makeText(con, "Busqueda Completada con " + result.size(), Toast.LENGTH_SHORT).show();
+                    SubProcesoConI.onReadSubProcessCompleted(result);
                 }
             });
         } catch (Exception e) {
@@ -97,9 +97,9 @@ public class SubProcesosCon {
     }
 
     public interface SubProcesoConI {
-        public void onReadCompleted(List<SubProceso> result);
+        public void onReadSubProcessCompleted(List<SubProceso> result);
 
-        public void onRegisterCompleted();
+        public void onRegisterSubProcessCompleted();
     }
 
 

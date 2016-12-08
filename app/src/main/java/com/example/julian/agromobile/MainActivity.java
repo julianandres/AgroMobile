@@ -27,6 +27,7 @@ import com.example.julian.agromobile.adapters.ProcesosAdapter;
 import com.example.julian.agromobile.layoutmanagers.CustomGridLayoutManager;
 import com.example.julian.agromobile.models.Proceso;
 import com.example.julian.agromobile.models.Usuario;
+import com.example.julian.agromobile.net.ProcesosCon;
 import com.example.julian.agromobile.util.AppUtil;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -45,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, ProcesosAdapter.OnItemClick {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, ProcesosAdapter.OnItemClick, ProcesosCon.ProcesoConI {
 
     static final String KEY_USER="userId";
     static final String KEY_USER_NAME="userName";
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProcesosAdapter procesoAdapter;
     List<Proceso> dataProcces;
     ActionBarDrawerToggle toggle;
-
+    ProcesosCon procesosCon;
     RecyclerView recyclerView;
 
     SwipeRefreshLayout swipe;
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         preferences= getSharedPreferences("pref",MODE_PRIVATE);
         editor=preferences.edit();
 
@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnInitProces= (FloatingActionButton) findViewById(R.id.fab);
         btnInitProces.setOnClickListener(this);
         dataProcces = new ArrayList<>();
-
+        procesosCon = new ProcesosCon(this,this);
+        procesosCon.getAllProcess();
         Proceso proceso1= new Proceso();
         proceso1.setNombre("Proceso1");
         proceso1.setState(false);
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             finish();
         }
+
     }
 
     @Override
@@ -150,6 +152,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.general_profile_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        procesosCon.getAllProcess();
     }
 
     @Override
@@ -226,6 +234,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
+         procesosCon.getAllProcess();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        procesosCon.getAllProcess();
     }
 
     @Override
@@ -233,5 +248,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, ProcessActivity.class);
         intent.putExtra(ProcessActivity.KEY_ID,dataProcces.get(position).getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onReadProcessCompleted(List<Proceso> result) {
+        dataProcces.clear();
+        for(int i=0;i<result.size();i++){
+            dataProcces.add(result.get(i));
+        }
+        procesoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRegisterProcessCompleted() {
+
     }
 }

@@ -40,7 +40,6 @@ public class Proceso {
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
-
     public int getDuracionSemanas() {
         return duracionSemanas;
     }
@@ -79,5 +78,8 @@ public class Proceso {
 
     public void setSubProcesoActual(int subProcesoActual) {
         this.subProcesoActual = subProcesoActual;
+    }
+    public Proceso(){
+
     }
 }

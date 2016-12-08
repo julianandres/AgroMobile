@@ -82,7 +82,7 @@ public class UsuariosCon {
 
                 @Override
                 public void onSuccess(List<Usuario> result) {
-                    Toast.makeText(con, "Busqueda Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(con, "Busqueda Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
                     usuarioConI.onReadCompleted(result);
                 }
             });

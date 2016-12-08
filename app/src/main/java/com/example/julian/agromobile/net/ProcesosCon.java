@@ -38,8 +38,8 @@ public class ProcesosCon {
         }
     }
     public interface ProcesoConI{
-        public void onReadCompleted(List<Proceso> result);
-        public void onRegisterCompleted();
+        public void onReadProcessCompleted(List<Proceso> result);
+        public void onRegisterProcessCompleted();
     }
 
     ProcesoConI ProcesoConI;
@@ -53,8 +53,8 @@ public class ProcesosCon {
 
             @Override
             public void onSuccess(Proceso result) {
-                Toast.makeText(con, "Registro Completado"+ result.getNombre(), Toast.LENGTH_SHORT).show();
-                ProcesoConI.onRegisterCompleted();
+                //Toast.makeText(con, "Registro Completado"+ result.getNombre(), Toast.LENGTH_SHORT).show();
+                ProcesoConI.onRegisterProcessCompleted();
                 //TODO COLOCAR UN MENSAJE DE ERROR EL CUAL DIGA QUE EXISTIÓ UN ERROR EN EL REGISTRO
             }
         });
@@ -73,9 +73,9 @@ public class ProcesosCon {
         return client.getTable(Proceso.class);
     }
 
-    public void getAllUsers(){
+    public void getAllProcess(){
         try {
-            ListenableFuture<MobileServiceList<Proceso>> result= getTable().where().field("complete").eq(val(false)).execute();
+            ListenableFuture<MobileServiceList<Proceso>> result= getTable().execute();
             Futures.addCallback(result, new FutureCallback<List<Proceso>>() {
                 @Override
                 public void onFailure(Throwable exc) {
@@ -84,8 +84,8 @@ public class ProcesosCon {
 
                 @Override
                 public void onSuccess(List<Proceso> result) {
-                    Toast.makeText(con, "Busqueda Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
-                    ProcesoConI.onReadCompleted(result);
+                    Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                    ProcesoConI.onReadProcessCompleted(result);
                 }
             });
         } catch (Exception e) {

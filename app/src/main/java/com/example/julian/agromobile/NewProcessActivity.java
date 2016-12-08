@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 
 import com.example.julian.agromobile.models.Proceso;
 import com.example.julian.agromobile.models.SubProceso;
+import com.example.julian.agromobile.net.ProcesosCon;
 import com.example.julian.agromobile.net.SubProcesosCon;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 
@@ -18,15 +19,17 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class NewProcessActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener, SubProcesosCon.SubProcesoConI {
+public class NewProcessActivity extends AppCompatActivity implements SubProcesosCon.SubProcesoConI, ProcesosCon.ProcesoConI, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
 
     SubProcesosCon subProcesosCon;
+    ProcesosCon procesosCon;
     private RadioGroup rdgGrupo;
     private int recurrency;
     private EditText nombre;
     private EditText duracionSemanas;
     private Button btnSave;
+    int contadoSubProcesosRegistrados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,8 @@ public class NewProcessActivity extends AppCompatActivity implements RadioGroup.
         btnSave = (Button) findViewById(R.id.btn_save_process);
         btnSave.setOnClickListener(this);
         subProcesosCon = new SubProcesosCon(this, this);
+        procesosCon = new ProcesosCon(this,this);
+        contadoSubProcesosRegistrados=0;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -73,7 +78,7 @@ public class NewProcessActivity extends AppCompatActivity implements RadioGroup.
         int duracionDias = duracionSemanasEntero * 7;
 
         proceso.setNombre(nombre.getText().toString());
-
+        proceso.setId(fechaInicio.toString());
         Date fechadeHoy = new Date();
         GregorianCalendar fechaHoy = new GregorianCalendar();
         GregorianCalendar config = new GregorianCalendar();
@@ -100,21 +105,28 @@ public class NewProcessActivity extends AppCompatActivity implements RadioGroup.
         subProceso2.setNombre("subProceso 2 de " + proceso.getNombre());
         subProceso3.setNombre("subProceso 3 de " + proceso.getNombre());
         subProceso4.setNombre("subProceso 4 de " + proceso.getNombre());
-        subProceso1.setIdProceso(proceso.getNombre());
-        subProceso2.setIdProceso(proceso.getNombre());
-        subProceso3.setIdProceso(proceso.getNombre());
-        subProceso4.setIdProceso(proceso.getNombre());
+        subProceso1.setIdProceso(proceso.getId());
+        subProceso2.setIdProceso(proceso.getId());
+        subProceso3.setIdProceso(proceso.getId());
+        subProceso4.setIdProceso(proceso.getId());
 
         switch (recurrency) {
             case 2: {
                 subProceso1.setFecha(addDays(fechadeHoy, 1));
                 subProceso2.setFecha(addDays(fechadeHoy, duracionDias));
+                subProcesosCon.insert(subProceso1);
+                System.out.println("subproceso1,case");
+                subProcesosCon.insert(subProceso2);
+                System.out.println("subproceso2,case");
                 break;
             }
             case 3: {
                 subProceso1.setFecha(addDays(fechadeHoy, 1));
                 subProceso2.setFecha(addDays(fechadeHoy, duracionDias / 2));
                 subProceso3.setFecha(addDays(fechadeHoy, duracionDias));
+                subProcesosCon.insert(subProceso1);
+                subProcesosCon.insert(subProceso2);
+                subProcesosCon.insert(subProceso3);
                 break;
             }
             case 4: {
@@ -122,10 +134,15 @@ public class NewProcessActivity extends AppCompatActivity implements RadioGroup.
                 subProceso2.setFecha(addDays(fechadeHoy, duracionDias / 3));
                 subProceso3.setFecha(addDays(fechadeHoy, 2 * duracionDias / 3));
                 subProceso4.setFecha(addDays(fechadeHoy, duracionDias));
+                subProcesosCon.insert(subProceso1);
+                subProcesosCon.insert(subProceso2);
+                subProcesosCon.insert(subProceso3);
+                subProcesosCon.insert(subProceso4);
             }
             break;
         }
-        subProcesosCon.insert(subProceso1);
+        //TODO CREAR ALERT DIALOG PARA CONFIRMAR FECHAS Y NOMBRES
+        procesosCon.insert(proceso);
     }
 
     public Date addDays(Date fecha, int dias) {
@@ -138,17 +155,25 @@ public class NewProcessActivity extends AppCompatActivity implements RadioGroup.
     }
 
     @Override
-    public void onReadCompleted(List<SubProceso> result, int count, Exception exception, ServiceFilterResponse response) {
+    public void onReadProcessCompleted(List<Proceso> result) {
+
+    }
+    @Override
+    public void onRegisterProcessCompleted() {
 
     }
 
     @Override
-    public void onDeleteComplete(Exception exception, ServiceFilterResponse response) {
+    public void onReadSubProcessCompleted(List<SubProceso> result) {
 
     }
 
     @Override
-    public void onComlete(SubProceso entity, Exception exception, ServiceFilterResponse response) {
-        System.out.println("onCompleteFinish");
+    public void onRegisterSubProcessCompleted() {
+        contadoSubProcesosRegistrados++;
+        if(recurrency==contadoSubProcesosRegistrados){
+            System.out.println("sub proceso numero "+contadoSubProcesosRegistrados);
+            finish();
+        }
     }
 }
