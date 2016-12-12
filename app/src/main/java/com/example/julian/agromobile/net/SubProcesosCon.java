@@ -71,7 +71,7 @@ public class SubProcesosCon {
         return client.getTable(SubProceso.class);
     }
 
-    public void getAllUsers() {
+    public void getAllProcess() {
         try {
             ListenableFuture<MobileServiceList<SubProceso>> result = getTable().where().field("complete").eq(val(false)).execute();
             Futures.addCallback(result, new FutureCallback<List<SubProceso>>() {
@@ -91,6 +91,25 @@ public class SubProcesosCon {
         }
 
     }
+    public void getProcessByIdProcess(String idProcess ){
+        try {
+            ListenableFuture<MobileServiceList<SubProceso>> result= getTable().where().field("idProceso").eq(val(idProcess)).execute();
+            Futures.addCallback(result, new FutureCallback<List<SubProceso>>() {
+                @Override
+                public void onFailure(Throwable exc) {
+                    Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(List<SubProceso> result) {
+                    Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                    SubProcesoConI.onReadSubProcessCompleted(result);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public Class<SubProceso> getClassModel() {
         return SubProceso.class;
@@ -98,7 +117,6 @@ public class SubProcesosCon {
 
     public interface SubProcesoConI {
         public void onReadSubProcessCompleted(List<SubProceso> result);
-
         public void onRegisterSubProcessCompleted();
     }
 

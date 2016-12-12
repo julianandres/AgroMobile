@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, ProcesosAdapter.OnItemClick, ProcesosCon.ProcesoConI {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, ProcesosAdapter.OnItemClick, ProcesosCon.ProcesoConI, SwipeRefreshLayout.OnRefreshListener {
 
     static final String KEY_USER="userId";
     static final String KEY_USER_NAME="userName";
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ActionBarDrawerToggle toggle;
     ProcesosCon procesosCon;
     RecyclerView recyclerView;
-
+    String usuarioLogin;
     SwipeRefreshLayout swipe;
 
     @Override
@@ -76,13 +76,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         preferences= getSharedPreferences("pref",MODE_PRIVATE);
         editor=preferences.edit();
 
-        String usLog=preferences.getString(LoginActivity.KEY_USER,"-1");
+        usuarioLogin=preferences.getString(LoginActivity.KEY_USER,"-1");
 
         btnInitProces= (FloatingActionButton) findViewById(R.id.fab);
         btnInitProces.setOnClickListener(this);
         dataProcces = new ArrayList<>();
         procesosCon = new ProcesosCon(this,this);
-        procesosCon.getAllProcess();
+
+        procesosCon.getAllProcess(usuarioLogin);
         Proceso proceso1= new Proceso();
         proceso1.setNombre("Proceso1");
         proceso1.setState(false);
@@ -108,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         swipe.setColorSchemeColors(Color.argb(0xff, 0xff, 0x00, 0x00)
                 , Color.argb(0xff, 0x00, 0xff, 0x00)
                 , Color.argb(0xff, 0x00, 0x00, 0xff));
-        System.out.println(usLog);
+
+        swipe.setOnRefreshListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setAdapter(procesoAdapter);
         recyclerView.setLayoutManager(new CustomGridLayoutManager(this));
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .transform(transformation)
                 .into(userImage);
 
-        if(usLog.equals("-1")){
+        if(usuarioLogin.equals("-1")){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        procesosCon.getAllProcess();
+        procesosCon.getAllProcess(usuarioLogin);
     }
 
     @Override
@@ -234,13 +236,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         toggle.syncState();
-         procesosCon.getAllProcess();
+         procesosCon.getAllProcess(usuarioLogin);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        procesosCon.getAllProcess();
+        procesosCon.getAllProcess(usuarioLogin);
     }
 
     @Override
@@ -257,10 +259,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dataProcces.add(result.get(i));
         }
         procesoAdapter.notifyDataSetChanged();
+        swipe.setRefreshing(false);
     }
 
     @Override
     public void onRegisterProcessCompleted() {
 
     }
+
+    @Override
+    public void onRefresh() {
+        procesosCon.getAllProcess(usuarioLogin);
+    }
 }
+

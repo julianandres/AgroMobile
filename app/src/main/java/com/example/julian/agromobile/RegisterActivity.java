@@ -41,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         password = (EditText) findViewById(R.id.txt_pass);
         confPassword = (EditText) findViewById(R.id.txt_confpass);
         btnAceptar = (Button) findViewById(R.id.button_register);
+        //TODO MEJORAR LA PRESENTACIÓN DEL REGISTER
         usuarios = new ArrayList<Usuario>();
         azureLogin = false;
         usercon = new UsuariosCon(this, this);

@@ -12,4 +12,7 @@
     <color name="nav_divider">#888888</color>
     <color name="onProccesColor">#FFA420</color>
     <color name="offProccessColor">#11e211</color>
+    <color name="subProcessNoState">#666666</color>
+    <color name="subProcessActualState">#FFA420</color>
+    <color name="subProcessCompleteState">#11e211</color>
 </resources>

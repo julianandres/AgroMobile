@@ -8,19 +8,28 @@
     tools:context="com.example.julian.agromobile.ProcessActivity">
 
     <TextView
+        android:id="@+id/name_process"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nombre"/>
     <TextView
+        android:id="@+id/state_process"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Estado"/>
     <TextView
+        android:id="@+id/date_init_process"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Fecha Inicio"/>
     <TextView
+        android:id="@+id/date_fin_process"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Fecha Fin"/>
+    <ListView
+        android:id="@+id/listSubProcess"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></ListView>
 </LinearLayout>

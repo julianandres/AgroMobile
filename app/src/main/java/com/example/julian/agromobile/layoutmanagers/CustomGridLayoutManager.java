@@ -10,7 +10,6 @@ public class CustomGridLayoutManager extends GridLayoutManager {
 
     public CustomGridLayoutManager(Context context) {
         super(context, 2);
-
         setSpanSizeLookup(new SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {

@@ -1,5 +1,6 @@
 package com.example.julian.agromobile;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -30,6 +31,9 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     private EditText duracionSemanas;
     private Button btnSave;
     int contadoSubProcesosRegistrados;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    String usLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,9 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         subProcesosCon = new SubProcesosCon(this, this);
         procesosCon = new ProcesosCon(this,this);
         contadoSubProcesosRegistrados=0;
+        preferences= getSharedPreferences("pref",MODE_PRIVATE);
+        editor=preferences.edit();
+        usLog = preferences.getString(LoginActivity.KEY_USER,"-1");
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -92,7 +99,7 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         proceso.setState(true);
         proceso.setNumeroSubprocesos(recurrency);
         proceso.setSubProcesoActual(1);
-
+        proceso.setIdUsuario(usLog);
         SubProceso subProceso1 = new SubProceso();
         SubProceso subProceso2 = new SubProceso();
         SubProceso subProceso3 = new SubProceso();
@@ -109,6 +116,10 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         subProceso2.setIdProceso(proceso.getId());
         subProceso3.setIdProceso(proceso.getId());
         subProceso4.setIdProceso(proceso.getId());
+        subProceso1.setEstado(0);
+        subProceso2.setEstado(0);
+        subProceso3.setEstado(0);
+        subProceso4.setEstado(0);
 
         switch (recurrency) {
             case 2: {
@@ -142,6 +153,8 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
             break;
         }
         //TODO CREAR ALERT DIALOG PARA CONFIRMAR FECHAS Y NOMBRES
+        //TODO COLOCAR LOS CALENDARIOS
+        //TODO REALIZAR LAS VALIDACIONES CORRESPONDIENTES
         procesosCon.insert(proceso);
     }
 

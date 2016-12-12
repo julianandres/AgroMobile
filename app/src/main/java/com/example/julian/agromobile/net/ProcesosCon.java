@@ -73,9 +73,9 @@ public class ProcesosCon {
         return client.getTable(Proceso.class);
     }
 
-    public void getAllProcess(){
+    public void getAllProcess(String usLogin){
         try {
-            ListenableFuture<MobileServiceList<Proceso>> result= getTable().execute();
+            ListenableFuture<MobileServiceList<Proceso>> result= getTable().where().field("idUsuario").eq(val(usLogin)).execute();
             Futures.addCallback(result, new FutureCallback<List<Proceso>>() {
                 @Override
                 public void onFailure(Throwable exc) {
@@ -92,6 +92,25 @@ public class ProcesosCon {
             e.printStackTrace();
         }
 
+    }
+    public void getProcessById(String id){
+        try {
+            ListenableFuture<MobileServiceList<Proceso>> result= getTable().where().field("id").eq(val(id)).execute();
+            Futures.addCallback(result, new FutureCallback<List<Proceso>>() {
+                @Override
+                public void onFailure(Throwable exc) {
+                    Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(List<Proceso> result) {
+                    Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                    ProcesoConI.onReadProcessCompleted(result);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Class<Proceso> getClassModel() {

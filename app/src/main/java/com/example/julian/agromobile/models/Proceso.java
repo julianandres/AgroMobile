@@ -10,6 +10,7 @@ public class Proceso {
 
     private String id;
     private String nombre;
+    private String idUsuario;
     private Date fechaInicio;
     private int duracionSemanas;
     private int numeroSubprocesos;
@@ -79,6 +80,15 @@ public class Proceso {
     public void setSubProcesoActual(int subProcesoActual) {
         this.subProcesoActual = subProcesoActual;
     }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public Proceso(){
 
     }

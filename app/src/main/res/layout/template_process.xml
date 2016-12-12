@@ -58,6 +58,7 @@
                    android:background="#33000000"
                    android:text="Fecha"
                    android:textSize="15sp"
+                   android:maxLines="1"
                    android:padding="@dimen/template_padding_small"/>
 
            </LinearLayout>

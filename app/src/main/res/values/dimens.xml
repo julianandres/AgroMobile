@@ -11,5 +11,5 @@
     <dimen name="nav_user">180dp</dimen>
     <dimen name="header_margin">10dp</dimen>
     <dimen name="template_icon">26dp</dimen>
-    <dimen name="template_padding_small">10dp</dimen>
+    <dimen name="template_padding_small">5dp</dimen>
 </resources>

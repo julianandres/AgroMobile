@@ -13,6 +13,7 @@ public class SubProceso {
     String nombre;
     String idProceso;
     int numeroenProceso;
+    int estado;
 
     public Date getFecha() {
         return fecha;
@@ -52,5 +53,13 @@ public class SubProceso {
 
     public void setNumeroenProceso(int numeroenProceso) {
         this.numeroenProceso = numeroenProceso;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 }
