@@ -13,6 +13,9 @@ import com.example.julian.agromobile.R;
 import com.example.julian.agromobile.models.Proceso;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,7 +62,7 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(holder instanceof ProcesoSpanViewHolder ){
             ProcesoSpanViewHolder spanHolder = (ProcesoSpanViewHolder) holder;
             spanHolder.nombre.setText(p.getNombre());
-            spanHolder.fecha.setText(p.getFechaInicio().toString());
+            spanHolder.fecha.setText(formatDate(p.getFechaInicio()));
 
             if(p.isState()){
                 spanHolder.estado.setText("EnProcesamiento");
@@ -75,7 +78,8 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }else {
             ProcesoViewHolder pHolder = (ProcesoViewHolder) holder;
             pHolder.nombre.setText(p.getNombre());
-            pHolder.fecha.setText(p.getFechaInicio().toString());
+
+            pHolder.fecha.setText(formatDate(p.getFechaInicio()));
 
             if(p.isState()){
                 pHolder.estado.setText("EnProcesamiento");
@@ -145,5 +149,13 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             fecha = (TextView) itemView.findViewById(R.id.template_date);
         }
     }
-    //endregion 
+    //endregion
+    String formatDate(Date imput){
+        String fecha="";
+        DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+        DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+
+        fecha =formatoFecha.format(imput)+" a las "+formatoHora.format(imput);
+        return fecha;
+    }
 }

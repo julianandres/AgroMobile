@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.example.julian.agromobile.R;
 import com.example.julian.agromobile.models.SubProceso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,7 +58,7 @@ public class SubProcessAdapter extends BaseAdapter {
         TextView txt = (TextView) v.findViewById(R.id.template_subprocess_title);
         txt.setText(subProceso.getNombre());
         txt = (TextView) v.findViewById(R.id.template_subprocess_date);
-        txt.setText(subProceso.getFecha().toString());
+        txt.setText(formatDate(subProceso.getFecha()));
 
         ImageView imgBackground = (ImageView) v.findViewById(R.id.template_background_img);
         switch (subProceso.getEstado()){
@@ -70,5 +73,13 @@ public class SubProcessAdapter extends BaseAdapter {
             }break;
         }
         return v;
+    }
+    String formatDate(Date imput){
+        String fecha="";
+        DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+        DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+
+        fecha =formatoFecha.format(imput)+" a las "+formatoHora.format(imput);
+        return fecha;
     }
 }

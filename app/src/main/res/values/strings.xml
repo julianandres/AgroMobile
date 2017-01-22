@@ -17,4 +17,5 @@
     <string name="txtCalculator">Calculator</string>
     <string name="txtProfile">Profile</string>
     <string name="rxtlogout">Logout</string>
+    <string name="error_fields">\"Error, Revise Campos\"</string>
 </resources>

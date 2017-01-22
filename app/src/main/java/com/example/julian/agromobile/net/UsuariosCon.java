@@ -46,7 +46,7 @@ public class UsuariosCon {
         Futures.addCallback(result, new FutureCallback<Usuario>() {
             @Override
             public void onFailure(Throwable exc) {
-                Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(con, exc.getCause().toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -77,7 +77,7 @@ public class UsuariosCon {
             Futures.addCallback(result, new FutureCallback<List<Usuario>>() {
                 @Override
                 public void onFailure(Throwable exc) {
-                    Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(con, exc.getCause().toString(), Toast.LENGTH_LONG).show();
                 }
 
                 @Override

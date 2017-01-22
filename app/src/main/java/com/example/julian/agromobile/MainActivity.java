@@ -77,71 +77,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor=preferences.edit();
 
         usuarioLogin=preferences.getString(LoginActivity.KEY_USER,"-1");
+        if(!usuarioLogin.equals("-1")) {
+            btnInitProces = (FloatingActionButton) findViewById(R.id.fab);
+            btnInitProces.setOnClickListener(this);
+            dataProcces = new ArrayList<>();
+            procesosCon = new ProcesosCon(this, this);
 
-        btnInitProces= (FloatingActionButton) findViewById(R.id.fab);
-        btnInitProces.setOnClickListener(this);
-        dataProcces = new ArrayList<>();
-        procesosCon = new ProcesosCon(this,this);
-
-        procesosCon.getAllProcess(usuarioLogin);
-        Proceso proceso1= new Proceso();
-        proceso1.setNombre("Proceso1");
-        proceso1.setState(false);
-        proceso1.setFechaInicio(new Date());
-
-        Proceso proceso3= new Proceso();
-        proceso3.setNombre("Proceso3");
-        proceso3.setState(false);
-        proceso3.setFechaInicio(new Date());
-
-        Proceso proceso2= new Proceso();
-        proceso2.setNombre("Proceso2");
-        proceso2.setState(true);
-        proceso2.setFechaInicio(new Date());
-
-        dataProcces.add(proceso1);
-        dataProcces.add(proceso2);
-        dataProcces.add(proceso3);
-        procesoAdapter = new ProcesosAdapter(this,dataProcces);
+            procesosCon.getAllProcess(usuarioLogin);
+            procesoAdapter = new ProcesosAdapter(this, dataProcces);
 
 
-        swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        swipe.setColorSchemeColors(Color.argb(0xff, 0xff, 0x00, 0x00)
-                , Color.argb(0xff, 0x00, 0xff, 0x00)
-                , Color.argb(0xff, 0x00, 0x00, 0xff));
+            swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
+            swipe.setColorSchemeColors(Color.argb(0xff, 0xff, 0x00, 0x00)
+                    , Color.argb(0xff, 0x00, 0xff, 0x00)
+                    , Color.argb(0xff, 0x00, 0x00, 0xff));
 
-        swipe.setOnRefreshListener(this);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setAdapter(procesoAdapter);
-        recyclerView.setLayoutManager(new CustomGridLayoutManager(this));
-        procesoAdapter.setOnItemClick(recyclerView,this);
+            swipe.setOnRefreshListener(this);
+            recyclerView = (RecyclerView) findViewById(R.id.recycler);
+            recyclerView.setAdapter(procesoAdapter);
+            recyclerView.setLayoutManager(new CustomGridLayoutManager(this));
+            procesoAdapter.setOnItemClick(recyclerView, this);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer);
-        drawer.setDrawerListener(this);
+            drawer = (DrawerLayout) findViewById(R.id.drawer);
+            drawer.setDrawerListener(this);
 
-        toggle =  new ActionBarDrawerToggle(this,drawer
-                ,R.string.drawer_open, R.string.drawer_close);
+            toggle = new ActionBarDrawerToggle(this, drawer
+                    , R.string.drawer_open, R.string.drawer_close);
 
 
-        nav = (NavigationView) findViewById(R.id.nav);
-        nav.setNavigationItemSelectedListener(this);
+            nav = (NavigationView) findViewById(R.id.nav);
+            nav.setNavigationItemSelectedListener(this);
 
-        ImageView userImage = (ImageView) nav.getHeaderView(0).findViewById(R.id.img_user);
-        TextView userName = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_usr);
-        TextView userMail = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_mail);
-        userName.setText(preferences.getString(KEY_USER_NAME,""));
-        userMail.setText(preferences.getString(KEY_USER_MAIL,""));
-        String urlImage = preferences.getString(AppUtil.USER_IMG,"");
+            ImageView userImage = (ImageView) nav.getHeaderView(0).findViewById(R.id.img_user);
+            TextView userName = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_usr);
+            TextView userMail = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_mail);
+            userName.setText(preferences.getString(KEY_USER_NAME, ""));
+            userMail.setText(preferences.getString(KEY_USER_MAIL, ""));
+            String urlImage = preferences.getString(AppUtil.USER_IMG, "");
 
-        Transformation transformation = new RoundedTransformationBuilder()
-                .oval(true)
-                .build();
+            Transformation transformation = new RoundedTransformationBuilder()
+                    .oval(true)
+                    .build();
 
-        Picasso.with(this).load(Uri.parse("http://tusejemplos.com/wp-content/uploads/2014/12/url-300x240.png"))
-                .transform(transformation)
-                .into(userImage);
-
-        if(usuarioLogin.equals("-1")){
+            Picasso.with(this).load(Uri.parse("http://tusejemplos.com/wp-content/uploads/2014/12/url-300x240.png"))
+                    .transform(transformation)
+                    .into(userImage);
+        }else{
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

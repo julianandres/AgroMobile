@@ -44,7 +44,7 @@ public class SubProcesosCon {
         Futures.addCallback(result, new FutureCallback<SubProceso>() {
             @Override
             public void onFailure(Throwable exc) {
-                Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(con, exc.toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -77,7 +77,7 @@ public class SubProcesosCon {
             Futures.addCallback(result, new FutureCallback<List<SubProceso>>() {
                 @Override
                 public void onFailure(Throwable exc) {
-                    Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(con, exc.getCause().toString(), Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -97,7 +97,7 @@ public class SubProcesosCon {
             Futures.addCallback(result, new FutureCallback<List<SubProceso>>() {
                 @Override
                 public void onFailure(Throwable exc) {
-                    Toast.makeText(con, exc.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(con, exc.getCause().toString(), Toast.LENGTH_LONG).show();
                 }
 
                 @Override

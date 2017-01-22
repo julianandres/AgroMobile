@@ -11,7 +11,10 @@ import com.example.julian.agromobile.models.SubProceso;
 import com.example.julian.agromobile.net.ProcesosCon;
 import com.example.julian.agromobile.net.SubProcesosCon;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProcessActivity extends AppCompatActivity implements ProcesosCon.ProcesoConI, SubProcesosCon.SubProcesoConI {
@@ -45,7 +48,7 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
         dataSubProcess = new ArrayList<SubProceso>();
         subProcessAdapter = new SubProcessAdapter(getApplication(),dataSubProcess);
         subProcessList.setAdapter(subProcessAdapter);
-        //TODO IMPLEMETAR TODO LO DE LA ACTIVIDAD DEL PROCESO
+        //TODO IMPLEMETAR UN ALERT DIALOG PARA DETALLES DE SUBPROCESO
     }
 
     @Override
@@ -53,15 +56,13 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
          if(result!=null){
              proceso=result.get(0);
              nombre.setText(proceso.getNombre());
-             fechaInicio.setText(proceso.getFechaInicio().toString());
-             fechaFin.setText(proceso.getFechaFin().toString());
+             fechaInicio.setText("Inició a las "+formatDate(proceso.getFechaInicio()));
+             fechaFin.setText("Termina en "+formatDate(proceso.getFechaFin()));
              if(!proceso.isState()){
                  estado.setText("Finalizado");
              }else{
                  estado.setText("En proceso");
              }
-
-
          }
     }
 
@@ -78,8 +79,18 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
         }
         subProcessAdapter.notifyDataSetChanged();
     }
+
     @Override
     public void onRegisterSubProcessCompleted() {
 
+    }
+
+    String formatDate(Date imput){
+        String fecha="";
+        DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+        DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+
+        fecha =formatoFecha.format(imput)+" a las "+formatoHora.format(imput);
+        return fecha;
     }
 }
