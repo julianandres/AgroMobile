@@ -45,6 +45,8 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_process);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Nuevo Proceso");
+
         rdgGrupo = (RadioGroup)findViewById(R.id.recurrence);
         rdgGrupo.setOnCheckedChangeListener(this);
         nombre = (EditText) findViewById(R.id.txtNameProccess);
@@ -83,7 +85,7 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
 
     @Override
     public void onClick(View v) {
-        if (nombre.getText().toString() != "" || duracionSemanas.getText().toString() != ""||recurrency==0) {
+        if (!nombre.getText().toString().equals("") && !duracionSemanas.getText().toString().equals("")&& recurrency!=0) {
             proceso = new Proceso();
             Date fechaInicio = new Date();
             Date fechaFin = new Date();
@@ -92,7 +94,15 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
             int duracionDias = duracionSemanasEntero * 7;
 
             proceso.setNombre(nombre.getText().toString());
-            proceso.setId(fechaInicio.toString());
+            Date imput;
+            imput = fechaInicio;
+            String fecha="";
+            DateFormat formatoHora = new SimpleDateFormat("HHmmss");
+            DateFormat formatoFecha = new SimpleDateFormat("ddMMyyyy");
+
+            fecha =formatoFecha.format(imput)+""+formatoHora.format(imput);
+            System.out.println(fecha);
+            proceso.setId(fecha);
             Date fechadeHoy = new Date();
             GregorianCalendar fechaHoy = new GregorianCalendar();
             GregorianCalendar config = new GregorianCalendar();
@@ -127,15 +137,22 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
             subProceso2.setEstado(0);
             subProceso3.setEstado(0);
             subProceso4.setEstado(0);
-
+            subProceso1.setFotonoir(0);
+            subProceso2.setFotonoir(0);
+            subProceso3.setFotonoir(0);
+            subProceso4.setFotonoir(0);
+            subProceso1.setFotorgb(0);
+            subProceso2.setFotorgb(0);
+            subProceso3.setFotorgb(0);
+            subProceso4.setFotorgb(0);
             switch (recurrency) {
                 case 2: {
                     subProceso1.setFecha(addDays(fechadeHoy, 1));
                     subProceso2.setFecha(addDays(fechadeHoy, duracionDias));
                     subProcesosCon.insert(subProceso1);
-                    System.out.println("subproceso1,case");
+
                     subProcesosCon.insert(subProceso2);
-                    System.out.println("subproceso2,case");
+
                     break;
                 }
                 case 3: {

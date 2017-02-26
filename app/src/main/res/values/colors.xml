@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#F44336</color>
-    <color name="primaryDark">#B71C1C</color>
+    <color name="primary">#ff8000</color>
+    <color name="primaryDark">#ff9114</color>
     <color name="accent">#651FFF</color>
     <color name="nav_bg">#333333</color>
     <color name="nav_header_bg">#445544</color>
@@ -13,6 +13,8 @@
     <color name="onProccesColor">#FFA420</color>
     <color name="offProccessColor">#11e211</color>
     <color name="subProcessNoState">#666666</color>
-    <color name="subProcessActualState">#FFA420</color>
-    <color name="subProcessCompleteState">#11e211</color>
+    <color name="subProcessActualState">#f7a000</color>
+    <color name="subProcessCompleteState">#008e00</color>
+    <color name="subProcessLostState">#AA0000</color>
+    <color name="subProcessActualStateUpdate">#92ff9f</color>
 </resources>

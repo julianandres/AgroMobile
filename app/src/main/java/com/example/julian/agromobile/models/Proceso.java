@@ -11,12 +11,22 @@ public class Proceso {
     private String id;
     private String nombre;
     private String idUsuario;
+    private String idAeronave;
+    private String idCamara;
     private Date fechaInicio;
     private int duracionSemanas;
     private int numeroSubprocesos;
     private boolean state;
     private Date fechaFin;
     private int subProcesoActual;
+
+    public String getIdAeronave() {
+        return idAeronave;
+    }
+
+    public void setIdAeronave(String idAeronave) {
+        this.idAeronave = idAeronave;
+    }
 
     public String getId() {
         return id;

@@ -1,7 +1,12 @@
 package com.example.julian.agromobile;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,10 +19,12 @@ import com.example.julian.agromobile.net.SubProcesosCon;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-public class ProcessActivity extends AppCompatActivity implements ProcesosCon.ProcesoConI, SubProcesosCon.SubProcesoConI {
+public class ProcessActivity extends AppCompatActivity implements ProcesosCon.ProcesoConI, SubProcesosCon.SubProcesoConI, AdapterView.OnItemClickListener {
 
     public static final String KEY_ID = "keyid" ;
 
@@ -48,15 +55,32 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
         dataSubProcess = new ArrayList<SubProceso>();
         subProcessAdapter = new SubProcessAdapter(getApplication(),dataSubProcess);
         subProcessList.setAdapter(subProcessAdapter);
+        subProcessList.setOnItemClickListener(this);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //TODO IMPLEMETAR UN ALERT DIALOG PARA DETALLES DE SUBPROCESO
+
+
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        finish();
+        //noinspection SimplifiableIfStatement
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onReadProcessCompleted(List<Proceso> result) {
          if(result!=null){
              proceso=result.get(0);
+             getSupportActionBar().setTitle("Procesos");
              nombre.setText(proceso.getNombre());
-             fechaInicio.setText("Inició a las "+formatDate(proceso.getFechaInicio()));
+             fechaInicio.setText("Inició en "+formatDate(proceso.getFechaInicio()));
              fechaFin.setText("Termina en "+formatDate(proceso.getFechaFin()));
              if(!proceso.isState()){
                  estado.setText("Finalizado");
@@ -74,7 +98,42 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
     @Override
     public void onReadSubProcessCompleted(List<SubProceso> result) {
         dataSubProcess.clear();
+
         for(int i=0;i<result.size();i++){
+            SubProceso sp = result.get(i);
+            GregorianCalendar fechaHoy = new GregorianCalendar();
+            GregorianCalendar config = new GregorianCalendar();
+            fechaHoy.setTime(new Date());
+            Date datePrevia = addDays(sp.getFecha(), -1);
+            Date datePost = addDays(sp.getFecha(), 1);
+            config.setTime(datePrevia);
+            System.out.println(fechaHoy.getTime() + " fechaHoy");
+            System.out.println(config.getTime() + " fecha config");
+            int ts = config.compareTo(fechaHoy);
+            if (ts < 0) {
+                config.setTime(datePost);
+                ts = config.compareTo(fechaHoy);
+                if (ts > 0) {
+                    //esta en el rango disponible
+                    if (sp.getEstado() == 0) {
+                        sp.setEstado(1);//estado disponible
+                    } else {
+                        sp.setEstado(2);//estado en proceso
+                    }
+
+                } else {
+                    //rango pasado
+
+                    if (sp.getEstado() == 0) {
+                        sp.setEstado(4);//no se subieron fotos
+                    } else {
+                        sp.setEstado(3);//se subieron fotos
+                    }
+                }
+            } else {
+                sp.setEstado(0);
+                //aun no se llega la fecha
+            }
             dataSubProcess.add(result.get(i));
         }
         subProcessAdapter.notifyDataSetChanged();
@@ -92,5 +151,45 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
 
         fecha =formatoFecha.format(imput)+" a las "+formatoHora.format(imput);
         return fecha;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String mensaje ="";
+        if(dataSubProcess.get(position).getEstado()==0){
+            mensaje ="Estará disponible en el sitio web tres días alrededor de la fecha indicada";
+        }else {
+            if (dataSubProcess.get(position).getEstado() == 1) {
+                mensaje = "Ingrese al sistema Web para subir las fotografías al servidor";
+            }else{
+                if (dataSubProcess.get(position).getEstado() == 2) {
+                    mensaje = "Ya se han subido fotografías al servidor, procesando";
+                }else{
+                    if (dataSubProcess.get(position).getEstado() == 3) {
+                        mensaje = "La información se ha subido correctamente";
+                    }else{
+                        mensaje = "Se ha perdido el proceso, se omitirá en los resultados";
+                    }
+                }
+
+
+            }
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(mensaje);
+        builder.setTitle(dataSubProcess.get(position).getNombre());
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        }).create().show();
+    }
+    public Date addDays(Date fecha, int dias) {
+        Date dato = fecha;
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(fecha);
+        gc.add(Calendar.DAY_OF_MONTH, dias);
+        dato = gc.getTime();
+        return dato;
     }
 }

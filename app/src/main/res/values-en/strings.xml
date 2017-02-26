@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MobileAgro</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_aceptar">Acept</string>
+    <string name="ErrorLoginPasswIncorrect">Login or password fail</string>
+    <string name="Red_ISSUE">Network Error</string>
+    <string name="iniciar_proceso">Init Process</string>
+    <string name="cerrar_sesi_n">Logout</string>
+    <string name="welcome_txt">Welcome</string>
+    <string name="mis_procesos">My Process</string>
+    <string name="drawer_open">Menu lateral abierto</string>
+    <string name="drawer_close">Menu lateral cerrado</string>
+    <string name="profile_txt">Profile</string>
+    <string name="txtInfo">Information</string>
+    <string name="txtGuide">Guide</string>
+    <string name="txtCalculator">Calculator</string>
+    <string name="txtProfile">Profile</string>
+    <string name="rxtlogout">Logout</string>
+    <string name="error_fields">\"Error, Choose Fields\"</string>
+    <string name="aeronaves">My Aircraft</string>
+    <string name="login_btn_register">Register</string>
+    <string name="login_btn_in">Login</string>
+    <string name="login_pass">password</string>
+    <string name="login_usr">login</string>
+    <string name="login_error">Username or password problem</string>
+    <string name="no_data_available">No data proccess found</string>
+    <string name="ok">Ok</string>
+
+</resources>

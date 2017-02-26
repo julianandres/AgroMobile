@@ -32,8 +32,6 @@ public class Usuario {
         this.complete = complete;
     }
 
-
-
     public String getId() {
         return id;
     }

@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     FloatingActionButton btnInitProces;
+    TextView emptyView;
 
     NavigationView nav;
     DrawerLayout drawer;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         System.out.println(LoginActivity.KEY_USER);
-
+        getSupportActionBar().setTitle("Procesos");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         preferences= getSharedPreferences("pref",MODE_PRIVATE);
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnInitProces.setOnClickListener(this);
             dataProcces = new ArrayList<>();
             procesosCon = new ProcesosCon(this, this);
-
+            emptyView = (TextView) findViewById(R.id.empty_view);
+            emptyView.setVisibility(View.GONE);
             procesosCon.getAllProcess(usuarioLogin);
             procesoAdapter = new ProcesosAdapter(this, dataProcces);
 
@@ -108,20 +110,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             nav = (NavigationView) findViewById(R.id.nav);
             nav.setNavigationItemSelectedListener(this);
 
-            ImageView userImage = (ImageView) nav.getHeaderView(0).findViewById(R.id.img_user);
+
             TextView userName = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_usr);
             TextView userMail = (TextView) nav.getHeaderView(0).findViewById(R.id.txt_mail);
             userName.setText(preferences.getString(KEY_USER_NAME, ""));
             userMail.setText(preferences.getString(KEY_USER_MAIL, ""));
             String urlImage = preferences.getString(AppUtil.USER_IMG, "");
 
-            Transformation transformation = new RoundedTransformationBuilder()
-                    .oval(true)
-                    .build();
 
-            Picasso.with(this).load(Uri.parse("http://tusejemplos.com/wp-content/uploads/2014/12/url-300x240.png"))
-                    .transform(transformation)
-                    .into(userImage);
         }else{
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -238,6 +234,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dataProcces.clear();
         for(int i=0;i<result.size();i++){
             dataProcces.add(result.get(i));
+        }
+        if (dataProcces.isEmpty()){
+            System.out.println("holaaaa");
+            emptyView.setVisibility(View.VISIBLE);
         }
         procesoAdapter.notifyDataSetChanged();
         swipe.setRefreshing(false);

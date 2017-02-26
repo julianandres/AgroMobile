@@ -14,6 +14,24 @@ public class SubProceso {
     String idProceso;
     int numeroenProceso;
     int estado;
+    int fotorgb;
+    int fotonoir;
+
+    public int getFotorgb() {
+        return fotorgb;
+    }
+
+    public void setFotorgb(int fotorgb) {
+        this.fotorgb = fotorgb;
+    }
+
+    public int getFotonoir() {
+        return fotonoir;
+    }
+
+    public void setFotonoir(int fotonoir) {
+        this.fotonoir = fotonoir;
+    }
 
     public Date getFecha() {
         return fecha;

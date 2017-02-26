@@ -30,7 +30,7 @@ public class UsuariosCon {
         con = context;
         this.usuarioConI=usuarioConI;
         try {
-            client=new MobileServiceClient("https://agromobile.azurewebsites.net",context);
+            client=new MobileServiceClient("https://mobileagroapp.azurewebsites.net",context);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

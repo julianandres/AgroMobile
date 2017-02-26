@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">MobileAgro</string>
-    <string name="txt_login">Login</string>
-    <string name="txt_password">Password</string>
+    <string name="txt_login">Nombre de usuario</string>
+    <string name="txt_password">Contraseña</string>
     <string name="txt_aceptar">Aceptar</string>
-    <string name="ErrorLoginPasswIncorrect">Login o password incorrectos</string>
+    <string name="ErrorLoginPasswIncorrect">Credenciales incorrectas</string>
     <string name="Red_ISSUE">Error de red</string>
     <string name="iniciar_proceso">Iniciar Proceso</string>
     <string name="cerrar_sesi_n">Cerrar Sesión</string>
@@ -11,11 +11,19 @@
     <string name="mis_procesos">Mis Procesos</string>
     <string name="drawer_open">Menu lateral abierto</string>
     <string name="drawer_close">Menu lateral cerrado</string>
-    <string name="profile_txt">Profile</string>
+    <string name="profile_txt">Perfil</string>
     <string name="txtInfo">Informacion</string>
-    <string name="txtGuide">Guide</string>
-    <string name="txtCalculator">Calculator</string>
-    <string name="txtProfile">Profile</string>
-    <string name="rxtlogout">Logout</string>
+    <string name="txtGuide">Guia</string>
+    <string name="txtCalculator">Calculador</string>
+    <string name="txtProfile">Perfil</string>
+    <string name="rxtlogout">Cerrar sesión</string>
     <string name="error_fields">\"Error, Revise Campos\"</string>
+    <string name="aeronaves">Mis aeronaves</string>
+    <string name="login_btn_register">Registrar</string>
+    <string name="login_btn_in">Entrar</string>
+    <string name="login_pass">contraseña</string>
+    <string name="login_usr">nombre de usuario</string>
+    <string name="login_error">El nombre de usuario y el password no coinciden</string>
+    <string name="no_data_available">No hay  procesos activos</string>
+    <string name="ok">Aceptar</string>
 </resources>

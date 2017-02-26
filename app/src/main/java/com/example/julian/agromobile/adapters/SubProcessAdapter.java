@@ -69,7 +69,13 @@ public class SubProcessAdapter extends BaseAdapter {
                 imgBackground.setBackgroundResource(R.color.subProcessActualState);
             }break;
             case 2:{
+                imgBackground.setBackgroundResource(R.color.subProcessActualStateUpdate);
+            }break;
+            case 3:{
                 imgBackground.setBackgroundResource(R.color.subProcessCompleteState);
+            }break;
+            case 4:{
+                imgBackground.setBackgroundResource(R.color.subProcessLostState);
             }break;
         }
         return v;

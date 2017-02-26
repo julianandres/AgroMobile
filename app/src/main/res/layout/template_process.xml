@@ -12,31 +12,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/template_img"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:src="#ffab32ff"
-                android:scaleType="centerCrop"
-                />
-             <ImageView
-                 android:id="@+id/image_state"
-                 android:layout_width="30dp"
-                 android:layout_height="100dp"
-                 android:layout_alignBottom="@+id/template_img"
-                 />
            <LinearLayout
-               android:layout_width="wrap_content"
+               android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:orientation="vertical"
-               android:layout_alignBottom="@id/template_img"
-               android:layout_toRightOf="@id/image_state">
+               android:background="#c7b617"
+               >
                <TextView
                    android:id="@+id/template_title"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:padding="@dimen/template_padding_small"
-                   android:background="#33000000"
+                   android:background="#c7b617"
                    android:textColor="#ffffff"
                    android:text="Nombre"
                    android:textSize="15sp"
@@ -46,7 +33,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:text="Estado"
-                   android:background="#33000000"
+                   android:background="#c7b617"
                    android:padding="@dimen/template_padding_small"
                    android:textColor="#ffffff"
                    android:textSize="15sp"
@@ -55,10 +42,10 @@
                    android:id="@+id/template_date"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:background="#33000000"
+                   android:background="#c7b617"
                    android:text="Fecha"
                    android:textSize="15sp"
-                   android:maxLines="1"
+                   android:maxLines="2"
                    android:padding="@dimen/template_padding_small"/>
 
            </LinearLayout>
