@@ -22,8 +22,21 @@
     <string name="login_btn_register">Registrar</string>
     <string name="login_btn_in">Entrar</string>
     <string name="login_pass">contraseña</string>
-    <string name="login_usr">nombre de usuario</string>
-    <string name="login_error">El nombre de usuario y el password no coinciden</string>
+    <string name="login_usr">Correo</string>
+    <string name="login_error">El nombre de usuario y la contraseña no coinciden</string>
     <string name="no_data_available">No hay  procesos activos</string>
     <string name="ok">Aceptar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="confirm_password">Confirme Contraseña</string>
+    <string name="password">Contraseña</string>
+    <string name="correo">Correo</string>
+    <string name="name">Name</string>
+    <string name="register">Register</string>
+    <string name="Guardar">Save</string>
+    <string name="nombre">Nombre</string>
+    <string name="duracion_en_semanas">Duracion en Semanas</string>
+    <string name="n_mero_de_pruebas">Número de pruebas</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

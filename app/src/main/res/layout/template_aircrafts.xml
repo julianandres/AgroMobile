@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/background_subprocess_linear"
-    >
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:layout_margin="@dimen/template_padding_small"
-        android:elevation="10dp"
         >
         <RelativeLayout
-            android:id="@+id/background_subprocess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:orientation="vertical">
-             <TextView
-                    android:id="@+id/template_subprocess_title"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/template_aircraft_ref"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textColor="#ffffff"
-                    android:text="Nombre"
+                    android:textColor="#000000"
+                    android:text="Referencia"
                     android:textSize="15sp"
                     />
                 <TextView
-                    android:id="@+id/template_subprocess_date"
+                    android:id="@+id/template_aircraft_autonomy"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Fecha"
+                    android:text="Autonomia"
                     android:textSize="15sp"
                     android:maxLines="1"
                     />
             </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
-
 </LinearLayout>

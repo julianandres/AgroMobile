@@ -23,9 +23,10 @@
     <string name="login_btn_register">Register</string>
     <string name="login_btn_in">Login</string>
     <string name="login_pass">password</string>
-    <string name="login_usr">login</string>
+    <string name="login_usr">Email</string>
     <string name="login_error">Username or password problem</string>
     <string name="no_data_available">No data proccess found</string>
     <string name="ok">Ok</string>
+    <string name="Guardar">Save</string>
 
 </resources>

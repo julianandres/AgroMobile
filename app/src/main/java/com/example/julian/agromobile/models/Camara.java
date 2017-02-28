@@ -9,6 +9,7 @@ public class Camara {
     private String id;
     private String refCamara;
     private float longitudFocal;
+    private int velocidadCaptura; //fotos/segundo
     private int resolucionHorizontal;
     private int resolucionVertical;
     private float longitudHorizontalSensor;
@@ -16,6 +17,14 @@ public class Camara {
 
     public String getId() {
         return id;
+    }
+
+    public int getVelocidadCaptura() {
+        return velocidadCaptura;
+    }
+
+    public void setVelocidadCaptura(int velocidadCaptura) {
+        this.velocidadCaptura = velocidadCaptura;
     }
 
     public void setId(String id) {

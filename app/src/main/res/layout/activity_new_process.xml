@@ -8,52 +8,84 @@
     android:orientation="vertical"
     tools:context="com.example.julian.agromobile.NewProcessActivity">
 
-    <EditText
-        android:id="@+id/txtNameProccess"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre"
-        />
-    <EditText
-        android:id="@+id/durationWeek"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Duracion en Semanas"
-        android:inputType="number"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Número de pruebas"/>
-    <RadioGroup
-        android:id="@+id/recurrence"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_span="3"
-        android:checkedButton="@+id/rdbOne"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/rdbTwo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2"/>
-        <RadioButton
-            android:id="@+id/rdbThree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"/>
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <RadioButton
-            android:id="@+id/rdbFourth"
+        <EditText
+            android:id="@+id/txtNameProccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nombre" />
+
+        <EditText
+            android:id="@+id/durationWeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/duracion_en_semanas"
+            android:inputType="number" />
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/n_mero_de_pruebas" />
+
+        <RadioGroup
+            android:id="@+id/recurrence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4" />
-    </RadioGroup>
-    <Button
-        android:theme="@style/ButtonAccent"
-        android:id="@+id/btn_save_process"
+            android:layout_column="0"
+            android:layout_span="3"
+            android:checkedButton="@+id/rdbOne"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdbTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/rdbThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/rdbFourth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4" />
+        </RadioGroup>
+        <Button
+            android:id="@+id/btn_next_aircraft"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/Guardar"
+            android:theme="@style/ButtonAccent" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save"/>
-    
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:id="@+id/list_aeronaves_process"
+            >
+        </ListView>
+        <Button
+            android:id="@+id/btn_next_camera"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/Guardar"
+            android:theme="@style/ButtonAccent" />
+    </LinearLayout>
 </LinearLayout>

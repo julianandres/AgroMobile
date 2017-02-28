@@ -23,7 +23,7 @@
         <activity android:name=".NewProcessActivity" />
         <activity android:name=".ProcessActivity" />
         <activity android:name=".CalculatorActivity" />
-        <activity android:name=".addUAVActivity" />
+        <activity android:name=".AddUAVActivity" />
         <activity android:name=".AeronavesActivity"></activity>
     </application>
 

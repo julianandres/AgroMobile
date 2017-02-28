@@ -9,6 +9,8 @@ public class Aeronave {
     private String referencia;
     private int autonomia;//entero en minutos
     private int velocidadCrucero;
+    private int altura;
+    private String idUsuario;
 
     public String getId() {
         return id;
@@ -38,7 +40,23 @@ public class Aeronave {
         return velocidadCrucero;
     }
 
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public void setVelocidadCrucero(int velocidadCrucero) {
         this.velocidadCrucero = velocidadCrucero;
+    }
+
+    public int getAltura() {
+        return altura;
+    }
+
+    public void setAltura(int altura) {
+        this.altura = altura;
     }
 }

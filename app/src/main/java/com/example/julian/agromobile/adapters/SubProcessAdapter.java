@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.julian.agromobile.R;
@@ -60,7 +61,7 @@ public class SubProcessAdapter extends BaseAdapter {
         txt = (TextView) v.findViewById(R.id.template_subprocess_date);
         txt.setText(formatDate(subProceso.getFecha()));
 
-        ImageView imgBackground = (ImageView) v.findViewById(R.id.template_background_img);
+        RelativeLayout imgBackground = (RelativeLayout) v.findViewById(R.id.background_subprocess);
         switch (subProceso.getEstado()){
             case 0:{
                 imgBackground.setBackgroundResource(R.color.subProcessNoState);

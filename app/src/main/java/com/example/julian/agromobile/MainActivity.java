@@ -152,9 +152,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
 
                 finish();
-
                 break;
-
+            case R.id.nav_aeronaves:
+                Intent inten =  new Intent(this, AeronavesActivity.class);
+                inten.putExtra(LoginActivity.KEY_USER_NAME,usuarioLogin);
+                startActivity(inten);
+                break;
         }
 
        // drawer.closeDrawers();

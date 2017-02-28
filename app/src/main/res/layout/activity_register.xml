@@ -7,46 +7,43 @@
 
     android:orientation="vertical"
     tools:context="com.example.julian.agromobile.RegisterActivity">
-    <TextView android:text="Register"
+    <TextView
+        android:text="Registro a agromobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sizesiss"
         android:padding="@dimen/padddd"
+        android:textColor="#000000"
         android:layout_gravity="center"/>
     <EditText
-        android:hint="Name"
+        android:hint="@string/name"
         android:id="@+id/txt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"/>
     <EditText
-        android:hint="Login"
-        android:id="@+id/txt_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"/>
-    <EditText
-        android:hint="Correo"
+        android:hint="@string/correo"
         android:id="@+id/txt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"/>
     <EditText
-        android:hint="Password"
+        android:hint="@string/password"
         android:id="@+id/txt_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"/>
     <EditText
-        android:hint="Confirm Password"
+        android:hint="@string/confirm_password"
         android:id="@+id/txt_confpass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"/>
+
     <Button
+        android:theme="@style/ButtonAccent"
         android:id="@+id/button_register"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aceptar"
-        android:layout_gravity="center"/>
+        android:text="Registrarme"/>
 </LinearLayout>
