@@ -158,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 inten.putExtra(LoginActivity.KEY_USER_NAME,usuarioLogin);
                 startActivity(inten);
                 break;
+            case R.id.nav_cameras:
+                Intent intenn =  new Intent(this, CamerasActivity.class);
+                intenn.putExtra(LoginActivity.KEY_USER_NAME,usuarioLogin);
+                startActivity(intenn);
+                break;
         }
 
        // drawer.closeDrawers();

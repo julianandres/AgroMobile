@@ -102,7 +102,7 @@ public class SubProcesosCon {
 
                 @Override
                 public void onSuccess(List<SubProceso> result) {
-                    Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
                     SubProcesoConI.onReadSubProcessCompleted(result);
                 }
             });

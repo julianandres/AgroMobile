@@ -122,7 +122,7 @@ public class AeronavesCon {
 
                 @Override
                 public void onSuccess(List<Aeronave> result) {
-                    Toast.makeText(con, "Busqueda de Aeronaves con "+ result.size(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(con, "Busqueda de Aeronaves con "+ result.size(), Toast.LENGTH_SHORT).show();
                     AeronaveConI.onReadAircraftCompleted(result);
                 }
             });

@@ -84,7 +84,7 @@ public class ProcesosCon {
 
                 @Override
                 public void onSuccess(List<Proceso> result) {
-                    Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
                     ProcesoConI.onReadProcessCompleted(result);
                 }
             });

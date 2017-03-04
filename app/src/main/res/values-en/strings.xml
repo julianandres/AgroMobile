@@ -28,5 +28,6 @@
     <string name="no_data_available">No data proccess found</string>
     <string name="ok">Ok</string>
     <string name="Guardar">Save</string>
+    <string name="camaras">Camaras</string>
 
 </resources>

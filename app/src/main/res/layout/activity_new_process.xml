@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_new_process"
@@ -8,9 +8,11 @@
     android:orientation="vertical"
     tools:context="com.example.julian.agromobile.NewProcessActivity">
 
+
     <LinearLayout
+        android:id="@+id/linear1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -60,32 +62,99 @@
                 android:layout_height="wrap_content"
                 android:text="4" />
         </RadioGroup>
+
         <Button
             android:id="@+id/btn_next_aircraft"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="@string/Guardar"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
             android:theme="@style/ButtonAccent" />
+
     </LinearLayout>
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/linear2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
+
         <ListView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
             android:id="@+id/list_aeronaves_process"
-            >
-        </ListView>
-        <Button
-            android:id="@+id/btn_next_camera"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="@string/Guardar"
-            android:theme="@style/ButtonAccent" />
-    </LinearLayout>
-</LinearLayout>
+            android:layout_height="wrap_content"></ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_aircrafts_process"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="40dp"
+                android:src="@drawable/ic_add_white"
+                app:backgroundTint="@color/primary"
+                app:borderWidth="0dp"
+                app:elevation="12dp"
+                app:fabSize="normal"
+                app:rippleColor="@color/primaryDark" />
+
+            <Button
+                android:id="@+id/btn_next_camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom"
+                android:text="@string/Guardar"
+                android:theme="@style/ButtonAccent" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/linear3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ListView
+            android:id="@+id/list_camera_process"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_cameras_process"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="40dp"
+                android:src="@drawable/ic_add_white"
+                app:backgroundTint="@color/primary"
+                app:borderWidth="0dp"
+                app:elevation="12dp"
+                app:fabSize="normal"
+                app:rippleColor="@color/primaryDark" />
+            <Button
+                android:id="@+id/btn_save_process"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/Guardar"
+                android:theme="@style/ButtonAccent" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
