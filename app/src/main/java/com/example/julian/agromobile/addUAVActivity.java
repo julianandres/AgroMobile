@@ -69,10 +69,10 @@ public class AddUAVActivity extends AppCompatActivity implements View.OnClickLis
                             // NavigationService.Navigate(new Uri("/IniciarSesion.xaml", UriKind.Relative));
 
                 } else {
-                Toast.makeText(this, "Verifique, Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.verify_fields, Toast.LENGTH_SHORT).show();
             }
         }else{
-            Toast.makeText(this, "Error de Red", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_network, Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -8,7 +8,7 @@
     tools:context="com.example.julian.agromobile.AddUAVActivity">
 
     <TextView
-        android:text="Ingrese los datos de la aeronave"
+        android:text="@string/txt_ingrese_los_datos_de_la_aeronave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sizesiss"
@@ -16,25 +16,25 @@
         android:textColor="#000000"
         android:layout_gravity="center"/>
     <EditText
-        android:hint="Referencia"
+        android:hint="@string/txt_referencia"
         android:id="@+id/txt_ref_aeronave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"/>
     <EditText
-        android:hint="Autonomia"
+        android:hint="@string/txt_autonomia_en_minutos"
         android:id="@+id/txt_autonomy_aeronave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"/>
     <EditText
-        android:hint="Velociadad crucero en m/s"
+        android:hint="@string/txt_velociadad_crucero_en_m_s"
         android:id="@+id/txt_speed_aircraft"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"/>
     <EditText
-        android:hint="Altura maxima"
+        android:hint="@string/txt_altura_maxima_en_metros"
         android:id="@+id/txt_height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,5 +44,5 @@
         android:id="@+id/button_add_uav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar UAV"/>
+        android:text="@string/txt_guardar"/>
 </LinearLayout>

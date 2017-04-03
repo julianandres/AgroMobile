@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.example.julian.agromobile.RegisterActivity">
     <TextView
-        android:text="Registro a agromobile"
+        android:text="@string/txt_registro_agromobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sizesiss"
@@ -45,5 +45,5 @@
         android:id="@+id/button_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registrarme"/>
+        android:text="@string/txt_registrarme"/>
 </LinearLayout>

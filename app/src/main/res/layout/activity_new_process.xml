@@ -8,12 +8,20 @@
     android:orientation="vertical"
     tools:context="com.example.julian.agromobile.NewProcessActivity">
 
-
+    <TextView
+        android:id="@+id/header_np"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textColor="#000000"
+        android:text="@string/txt_paso_1_de_3"/>
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_below="@id/header_np"
         android:visibility="visible">
 
         <EditText
@@ -33,6 +41,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#000000"
             android:text="@string/n_mero_de_pruebas" />
 
         <RadioGroup
@@ -67,13 +76,14 @@
             android:id="@+id/btn_next_aircraft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Siguiente"
+            android:text="@string/txt_siguiente"
             android:theme="@style/ButtonAccent" />
 
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/linear2"
+        android:layout_below="@id/header_np"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
@@ -110,7 +120,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
-                android:text="@string/Guardar"
+                android:text="@string/txt_siguiente"
                 android:theme="@style/ButtonAccent" />
 
         </LinearLayout>
@@ -119,6 +129,7 @@
 
     <RelativeLayout
         android:id="@+id/linear3"
+        android:layout_below="@id/header_np"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">

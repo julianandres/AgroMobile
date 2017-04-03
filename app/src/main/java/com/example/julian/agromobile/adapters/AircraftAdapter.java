@@ -49,8 +49,12 @@ public class AircraftAdapter extends BaseAdapter {
 
         Aeronave aeronave= (Aeronave) getItem(position);
         TextView autonomia = (TextView) v.findViewById(R.id.template_aircraft_autonomy);
+        TextView velCrucero = (TextView) v.findViewById(R.id.velocidad_crucero);
+        TextView alturaMaxima = (TextView) v.findViewById(R.id.altura_maxima);
         TextView ref = (TextView) v.findViewById(R.id.template_aircraft_ref);
-        autonomia.setText(aeronave.getAutonomia()+"");
+        alturaMaxima.setText(aeronave.getAltura() + context.getString(R.string.metters));
+        velCrucero.setText(aeronave.getVelocidadCrucero() + " m/s");
+        autonomia.setText(aeronave.getAutonomia()+context.getString(R.string.txt_minutes));
         ref.setText(aeronave.getReferencia());
         return v;
     }

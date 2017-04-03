@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         azureLogin = false;
         usercon = new UsuariosCon(this, this);
         usercon.getAllUsers();
-        getSupportActionBar().setTitle("Register");
+        getSupportActionBar().setTitle(R.string.txt_register);
 
         
     }
@@ -97,21 +97,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             //mongo.findAllDocuments(this);
                             // NavigationService.Navigate(new Uri("/IniciarSesion.xaml", UriKind.Relative));
                         } else {
-                            Toast.makeText(this, " Existente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, R.string.existent, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(this, "Contraseñas Distintas", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.password_diferent, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "Email Incorrecto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.wrong_email, Toast.LENGTH_SHORT).show();
 
                 }
 
             } else {
-                Toast.makeText(this, "Verifique, Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.verify_fields, Toast.LENGTH_SHORT).show();
             }
         }else{
-            Toast.makeText(this, "Error de Red", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_network, Toast.LENGTH_SHORT).show();
         }
     }
     @Override

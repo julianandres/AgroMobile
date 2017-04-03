@@ -65,10 +65,10 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             spanHolder.fecha.setText(formatDate(p.getFechaInicio()));
 
             if(p.isState()){
-                spanHolder.estado.setText("EnProcesamiento");
+                spanHolder.estado.setText(context.getString(R.string.txt_onprocess));
                 spanHolder.estado.setBackgroundResource(R.color.onProccesColor);
             }else{
-                spanHolder.estado.setText("Terminado");
+                spanHolder.estado.setText(context.getString(R.string.txt_finished));
                 spanHolder.estado.setBackgroundResource(R.color.offProccessColor);
             }
 
@@ -82,10 +82,10 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             pHolder.fecha.setText(formatDate(p.getFechaInicio()));
 
             if(p.isState()){
-                pHolder.estado.setText("EnProcesamiento");
+                pHolder.estado.setText(context.getString(R.string.txt_onprocess));
                 pHolder.estado.setBackgroundResource(R.color.onProccesColor);
             }else{
-                pHolder.estado.setText("Terminado");
+                pHolder.estado.setText(context.getString(R.string.txt_finished));
                 pHolder.estado.setBackgroundResource(R.color.offProccessColor);
             }
         }
@@ -155,7 +155,7 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
         DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 
-        fecha =formatoFecha.format(imput)+" a las "+formatoHora.format(imput);
+        fecha =formatoFecha.format(imput)+context.getString(R.string.tothe)+formatoHora.format(imput);
         return fecha;
     }
 }

@@ -21,21 +21,77 @@
                 <TextView
                     android:id="@+id/template_aircraft_ref"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:textColor="#000000"
-                    android:text="Referencia"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:text="@string/txt_referencia"
                     android:textSize="15sp"
                     />
-                <TextView
-                    android:id="@+id/template_aircraft_autonomy"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="Autonomia"
-                    android:textSize="15sp"
-                    android:maxLines="1"
-                    />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.1"
+                        android:textColor="#000000"
+                        android:text="@string/txt_autonom_a"
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        />
+                    <TextView
+                        android:id="@+id/template_aircraft_autonomy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
+                        android:text="Autonomia"
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.1"
+                        android:textColor="#000000"
+                        android:text="@string/txt_altura_m_xima"
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        />
+                    <TextView
+                        android:id="@+id/altura_maxima"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
+                        android:text="Altura máxima"
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.1"
+                        android:textColor="#000000"
+                        android:text="@string/txt_vel_crucero"
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        />
+                    <TextView
+                        android:id="@+id/velocidad_crucero"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
+                        android:text="Vel Crucero"
+                        android:textSize="15sp"
+                        android:maxLines="1"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>

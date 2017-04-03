@@ -51,7 +51,7 @@ public class AeronavesActivity extends AppCompatActivity implements  AeronavesCo
         Bundle extras = getIntent().getExtras();
         idUser=extras.getString(LoginActivity.KEY_USER_NAME);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Mis Aeronaves");
+        getSupportActionBar().setTitle(R.string.my_aircraft);
         fabaircrafts.setOnClickListener(this);
         aeronavesCon= new AeronavesCon(this,this);
         aeronavesCon.getAircraftByIdUser(idUser);

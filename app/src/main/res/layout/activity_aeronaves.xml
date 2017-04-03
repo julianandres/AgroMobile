@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="#000000"
-        android:text="No se han agregado aeronaves" />
+        android:text="@string/txt_no_se_han_agregado_aeronaves" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer"

@@ -23,59 +23,71 @@ import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperati
  */
 
 public class ProcesosCon {
-
-
     MobileServiceClient client;
     Context con;
     List<Proceso> result;
-    public ProcesosCon(ProcesoConI ProcesoConI,Context context){
+    public ProcesosCon(ProcesoConI ProcesoConI, Context context) {
         con = context;
-        this.ProcesoConI=ProcesoConI;
+        this.ProcesoConI = ProcesoConI;
         try {
-            client=new MobileServiceClient("https://mobileagroapp.azurewebsites.net",context);
+            client = new MobileServiceClient("https://mobileagroapp.azurewebsites.net", context);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
-    public interface ProcesoConI{
+    public interface ProcesoConI {
         public void onReadProcessCompleted(List<Proceso> result);
         public void onRegisterProcessCompleted();
     }
-
     ProcesoConI ProcesoConI;
-    public void insert(Proceso item){
+    public void insert(Proceso item) {
         ListenableFuture<Proceso> result = getTable().insert(item);
         Futures.addCallback(result, new FutureCallback<Proceso>() {
             @Override
             public void onFailure(Throwable exc) {
                 Toast.makeText(con, exc.toString(), Toast.LENGTH_LONG).show();
             }
-
             @Override
             public void onSuccess(Proceso result) {
                 //Toast.makeText(con, "Registro Completado"+ result.getNombre(), Toast.LENGTH_SHORT).show();
                 ProcesoConI.onRegisterProcessCompleted();
-                //TODO COLOCAR UN MENSAJE DE ERROR EL CUAL DIGA QUE EXISTIÓ UN ERROR EN EL REGISTRO
             }
         });
     }
-    public void update(Proceso item){
-
-        getTable().update(item);
-
+    public void update(Proceso item) {
+        ListenableFuture<Proceso> result = getTable().update(item);
+        Futures.addCallback(result, new FutureCallback<Proceso>() {
+            @Override
+            public void onFailure(Throwable exc) {
+                Toast.makeText(con, exc.toString(), Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onSuccess(Proceso avoid) {
+                //Toast.makeText(con, "Registro Completado"+ result.getNombre(), Toast.LENGTH_SHORT).show();
+                ProcesoConI.onRegisterProcessCompleted();
+            }
+        });
     }
-    public void delete(Proceso item){
-
-        getTable().delete(item);
+    public void delete(Proceso item) {
+        ListenableFuture<Void> result = getTable().delete(item);
+        Futures.addCallback(result, new FutureCallback<Void>() {
+            @Override
+            public void onFailure(Throwable exc) {
+                Toast.makeText(con, exc.toString(), Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onSuccess(Void result) {
+                //Toast.makeText(con, "Registro Completado"+ result.getNombre(), Toast.LENGTH_SHORT).show();
+                ProcesoConI.onRegisterProcessCompleted();
+            }
+        });
     }
-
-    public MobileServiceTable<Proceso> getTable(){
+    public MobileServiceTable<Proceso> getTable() {
         return client.getTable(Proceso.class);
     }
-
-    public void getAllProcess(String usLogin){
+    public void getAllProcess(String usLogin) {
         try {
-            ListenableFuture<MobileServiceList<Proceso>> result= getTable().where().field("idUsuario").eq(val(usLogin)).execute();
+            ListenableFuture<MobileServiceList<Proceso>> result = getTable().where().field("idUsuario").eq(val(usLogin)).execute();
             Futures.addCallback(result, new FutureCallback<List<Proceso>>() {
                 @Override
                 public void onFailure(Throwable exc) {
@@ -91,20 +103,19 @@ public class ProcesosCon {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-    public void getProcessById(String id){
+    public void getProcessById(String id) {
         try {
-            ListenableFuture<MobileServiceList<Proceso>> result= getTable().where().field("id").eq(val(id)).execute();
+            ListenableFuture<MobileServiceList<Proceso>> result = getTable().where().field("id").eq(val(id)).execute();
             Futures.addCallback(result, new FutureCallback<List<Proceso>>() {
                 @Override
                 public void onFailure(Throwable exc) {
-                    Toast.makeText(con, exc.toString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(con, exc.toString(), Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onSuccess(List<Proceso> result) {
-                    Toast.makeText(con, "Busqueda de procesos Completada con "+ result.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(con, "Busqueda de procesos Completada con " + result.size(), Toast.LENGTH_SHORT).show();
                     ProcesoConI.onReadProcessCompleted(result);
                 }
             });
@@ -112,9 +123,8 @@ public class ProcesosCon {
             e.printStackTrace();
         }
     }
-
     public Class<Proceso> getClassModel() {
-        return  Proceso.class;
+        return Proceso.class;
     }
 
 }

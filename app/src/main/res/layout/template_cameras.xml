@@ -34,7 +34,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.1"
                         android:textColor="#000000"
-                        android:text="L/Focal"
+                        android:text="@string/l_focal"
                         android:textSize="15sp"
                         android:maxLines="1"
                         />
@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.1"
                         android:textColor="#000000"
-                        android:text="Resolución"
+                        android:text="@string/txt_resoluci_n"
                         android:textSize="15sp"
                         android:maxLines="1"
                         />
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.1"
                         android:textColor="#000000"
-                        android:text="Dimen/Sensor"
+                        android:text="@string/dimen_sensor"
                         android:textSize="15sp"
                         android:maxLines="1"
                         />
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.1"
                         android:textColor="#000000"
-                        android:text="Vel/Captura"
+                        android:text="@string/vel_captura"
                         android:textSize="15sp"
                         android:maxLines="1"
                         />

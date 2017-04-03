@@ -1,12 +1,21 @@
 package com.example.julian.agromobile;
 
+import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.PersistableBundle;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.julian.agromobile.adapters.AircraftAdapter;
@@ -68,6 +78,7 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     SubProceso subProceso2;
     SubProceso subProceso3;
     SubProceso subProceso4;
+    TextView headerView;
     LinearLayout linear1;
     RelativeLayout linear2,linear3;
     int estado;
@@ -79,12 +90,37 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_process);
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)!= PackageManager.PERMISSION_GRANTED) {
+            System.out.println("holaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssss");
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CALENDAR)) {} else { ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CALENDAR},
+                    1);
+            }
+        }
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)!= PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_CALENDAR)) {
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        1);
+            }
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Nuevo Proceso");
+        getSupportActionBar().setTitle(R.string.txt_new_process);
+
         listViewAeronaves = (ListView) findViewById(R.id.list_aeronaves_process);
         listViewCamaras= (ListView) findViewById(R.id.list_camera_process);
         fabAeronaves= (FloatingActionButton) findViewById(R.id.fab_aircrafts_process);
         fabCameras= (FloatingActionButton) findViewById(R.id.fab_cameras_process);
+        headerView = (TextView) findViewById(R.id.header_np);
         fabAeronaves.setOnClickListener(this);
         fabCameras.setOnClickListener(this);
         aeronaves = new ArrayList<Aeronave>();
@@ -196,6 +232,7 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         
         //region
         if(v.getId()==R.id.btn_next_aircraft){
+            headerView.setText(R.string.txt_step2of3);
             if (!nombre.getText().toString().equals("") && !duracionSemanas.getText().toString().equals("") && recurrency != 0) {
                 proceso = new Proceso();
                 Date fechaInicio = new Date();
@@ -236,10 +273,10 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
                 subProceso2.setNumeroenProceso(2);
                 subProceso3.setNumeroenProceso(3);
                 subProceso4.setNumeroenProceso(4);
-                subProceso1.setNombre("subProceso 1 de " + proceso.getNombre());
-                subProceso2.setNombre("subProceso 2 de " + proceso.getNombre());
-                subProceso3.setNombre("subProceso 3 de " + proceso.getNombre());
-                subProceso4.setNombre("subProceso 4 de " + proceso.getNombre());
+                subProceso1.setNombre(getString(R.string.txt_task) + proceso.getNombre());
+                subProceso2.setNombre(getString(R.string.txt_task2) + proceso.getNombre());
+                subProceso3.setNombre(getString(R.string.task_3) + proceso.getNombre());
+                subProceso4.setNombre(getString(R.string.task_4) + proceso.getNombre());
                 subProceso1.setIdProceso(proceso.getId());
                 subProceso2.setIdProceso(proceso.getId());
                 subProceso3.setIdProceso(proceso.getId());
@@ -281,7 +318,7 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
                 linear1.setVisibility(View.GONE);
                 linear2.setVisibility(View.VISIBLE);
                 estado=1;
-                getSupportActionBar().setTitle("Agregar aeronaves a Proceso");
+                getSupportActionBar().setTitle(R.string.txt_add_aeronaves);
                 System.out.println("estadoooooooooooooo");
                 //TODO CREAR ALERT DIALOG PARA CONFIRMAR FECHAS Y NOMBRES
                 //TODO COLOCAR LOS CALENDARIOS
@@ -291,45 +328,59 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
             }
         }
         if(v.getId()==R.id.btn_next_camera){
+            headerView.setText(R.string.txt_process_3_step_3);
             System.out.println("holaaaaa");
             if(aeronaveSeleccionada!=null) {
                 linear2.setVisibility(View.GONE);
                 linear3.setVisibility(View.VISIBLE);
-                getSupportActionBar().setTitle("Agregar cámaras al proceso");
+                getSupportActionBar().setTitle(R.string.add_cameras_proces);
                 viewPrevio=null;
                 estado = 2;
             }else{
-                Toast.makeText(this,"Seleccione una aeronave",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.txt_select_aircraft,Toast.LENGTH_SHORT).show();
             }
         }
         if(v.getId()==R.id.btn_save_process) {
+
             if (camaraSeleccionada != null) {
                 estado=3;
                 switch (recurrency) {
                     case 2: {
+                        addEvent(subProceso1.getId(),subProceso1);
+                        addEvent(subProceso2.getId(),subProceso2);
                         subProcesosCon.insert(subProceso1);
                         subProcesosCon.insert(subProceso2);
+
                         break;
                     }
                     case 3: {
-
+                        addEvent(subProceso1.getId(),subProceso1);
+                        addEvent(subProceso2.getId(),subProceso2);
+                        addEvent(subProceso3.getId(),subProceso3);
                         subProcesosCon.insert(subProceso1);
                         subProcesosCon.insert(subProceso2);
                         subProcesosCon.insert(subProceso3);
+
                         break;
                     }
                     case 4: {
+                        addEvent(subProceso1.getId(),subProceso1);
+                        addEvent(subProceso2.getId(),subProceso2);
+                        addEvent(subProceso3.getId(),subProceso3);
+                        addEvent(subProceso4.getId(),subProceso4);
                         subProcesosCon.insert(subProceso1);
                         subProcesosCon.insert(subProceso2);
                         subProcesosCon.insert(subProceso3);
                         subProcesosCon.insert(subProceso4);
+
                     }
                     break;
                 }
+                proceso.setIdAeronave("idaeronave");
                 //TODO implementar las id del avion y la cámara
+            }else{
+                Toast.makeText(this, R.string.select_a_camera,Toast.LENGTH_SHORT).show();
             }
-        }else{
-            Toast.makeText(this,"Seleccione una cámara",Toast.LENGTH_SHORT);
         }
     }
 
@@ -453,5 +504,34 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         LinearLayout linear= (LinearLayout) view.findViewById(template);
         linear.setBackgroundResource(R.color.accent);
         viewPrevio=view;
+    }
+    private void addEvent(String m_selectedCalendarId, SubProceso subProceso) {
+
+            ContentValues l_event = new ContentValues();
+            l_event.put("calendar_id", "1");
+            l_event.put("title", getString(R.string.recordatory_title)+proceso.getNombre());
+            l_event.put("description", getString(R.string.thisisarecordatory) + subProceso.getNombre());
+            l_event.put("eventLocation", "@home");//Por ver o quitar
+            l_event.put(CalendarContract.Events.DTSTART, subProceso.getFecha().getTime());
+            l_event.put(CalendarContract.Events.DTEND, subProceso.getFecha().getTime() + 1800 * 1000);
+            l_event.put("allDay", 0);
+            l_event.put("eventTimezone", TimeZone.getDefault().getID());
+            //status: 0~ tentative; 1~ confirmed; 2~ canceled
+            l_event.put("eventStatus", 1);
+            //0~ default; 1~ confidential; 2~ private; 3~ public
+            // l_event.put("visibility", 0);
+            //0~ opaque, no timing conflict is allowed; 1~ transparency, allow overlap of scheduling
+            // l_event.put("transparency", 1);
+            //0~ false; 1~ true
+            l_event.put("hasAlarm", 1);
+            Uri l_eventUri;
+            if (Build.VERSION.SDK_INT >= 8) {
+                l_eventUri = Uri.parse("content://com.android.calendar/events");
+            } else {
+                l_eventUri = Uri.parse("content://calendar/events");
+            }
+            Uri l_uri = this.getContentResolver().insert(l_eventUri, l_event);
+            Log.v("++++++test", l_uri.toString());
+
     }
 }

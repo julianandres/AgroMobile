@@ -11,7 +11,7 @@
         android:id="@+id/ref_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Referencia"
+        android:hint="@string/txt_referencia"
         android:inputType="text"
         />
 
@@ -19,7 +19,7 @@
         android:id="@+id/focal_length"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Longitud focal"
+        android:hint="@string/txt_longitud_focal"
         android:inputType="numberDecimal"
         />
 
@@ -28,13 +28,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:hint="Velocidad de captura en fotos/segundo" />
+        android:hint="@string/txt_velocidad_de_captura_en_fotos_segundo" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:text="Resolución dada en píxeles "
+        android:text="@string/txt_resoluci_n_dada_en_p_xeles"
         android:textColor="@color/primaryDark"
 
         android:textSize="20sp" />
@@ -50,21 +50,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="number"
-            android:hint="Horizontal" />
+            android:hint="@string/txt_horizontal" />
 
         <EditText
             android:id="@+id/txt_resol_vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Vertical"
+            android:hint="@string/txt_vertical"
             android:inputType="number"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:text="Tamaño del sensor dado en milímetros"
+        android:text="@string/txt_tama_o_del_sensor_dado_en_mil_metros"
         android:textColor="@color/primaryDark"
         android:textSize="20sp" />
     <LinearLayout
@@ -76,7 +76,7 @@
             android:id="@+id/longitud_horiz_sensor"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:hint="Horizontal"
+            android:hint="@string/txt_horizontal"
             android:inputType="numberDecimal"
             android:layout_height="wrap_content" />
 
@@ -84,7 +84,7 @@
             android:id="@+id/longitud_vert_sensor"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:hint="Vertical"
+            android:hint="@string/txt_vertical"
             android:inputType="numberDecimal"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -94,5 +94,5 @@
         android:id="@+id/button_add_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar Cámara"/>
+        android:text="@string/txt_guardar_c_mara"/>
 </LinearLayout>

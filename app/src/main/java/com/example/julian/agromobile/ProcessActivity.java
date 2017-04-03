@@ -78,14 +78,14 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
     public void onReadProcessCompleted(List<Proceso> result) {
          if(result!=null){
              proceso=result.get(0);
-             getSupportActionBar().setTitle("Procesos");
+             getSupportActionBar().setTitle(R.string.txt_process);
              nombre.setText(proceso.getNombre());
-             fechaInicio.setText("Inició en "+formatDate(proceso.getFechaInicio()));
-             fechaFin.setText("Termina en "+formatDate(proceso.getFechaFin()));
+             fechaInicio.setText(getString(R.string.txt_init_on)+formatDate(proceso.getFechaInicio()));
+             fechaFin.setText(getString(R.string.txt_finish_on)+formatDate(proceso.getFechaFin()));
              if(!proceso.isState()){
-                 estado.setText("Finalizado");
+                 estado.setText(R.string.finish);
              }else{
-                 estado.setText("En proceso");
+                 estado.setText(R.string.on_process);
              }
          }
     }
@@ -157,18 +157,18 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String mensaje ="";
         if(dataSubProcess.get(position).getEstado()==0){
-            mensaje ="Estará disponible en el sitio web tres días alrededor de la fecha indicada";
+            mensaje =getString(R.string.txt_estara_available);
         }else {
             if (dataSubProcess.get(position).getEstado() == 1) {
-                mensaje = "Ingrese al sistema Web para subir las fotografías al servidor";
+                mensaje = getString(R.string.input_to_sistemweb);
             }else{
                 if (dataSubProcess.get(position).getEstado() == 2) {
-                    mensaje = "Ya se han subido fotografías al servidor, procesando";
+                    mensaje = getString(R.string.already_upload_);
                 }else{
                     if (dataSubProcess.get(position).getEstado() == 3) {
-                        mensaje = "La información se ha subido correctamente";
+                        mensaje = getString(R.string.information_upload_correcltly);
                     }else{
-                        mensaje = "Se ha perdido el proceso, se omitirá en los resultados";
+                        mensaje = getString(R.string.process_lost);
                     }
                 }
 

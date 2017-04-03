@@ -50,7 +50,7 @@ public class CamerasActivity extends AppCompatActivity implements CamarasCon.Cam
         Bundle extras = getIntent().getExtras();
         idUser = extras.getString(LoginActivity.KEY_USER_NAME);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Cámaras");
+        getSupportActionBar().setTitle(R.string.txt_cameras);
         fabcameras.setOnClickListener(this);
         camarasCon = new CamarasCon(this, this);
         camarasCon.getAllCameras();

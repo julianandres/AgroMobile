@@ -84,9 +84,7 @@ public class AeronavesCon {
                 Toast.makeText(con, throwable.getCause().toString(), Toast.LENGTH_LONG).show();
             }
         });
-
     }
-
     public MobileServiceTable<Aeronave> getTable() {
         return client.getTable(Aeronave.class);
     }

@@ -82,12 +82,14 @@
         android:layout_marginLeft="@dimen/login_margin_small"
         android:layout_marginRight="@dimen/login_margin_small"
         >
+
         <Button
             android:theme="@style/ButtonAccent"
             android:id="@+id/btn_aceptar"
             android:layout_height="wrap_content"
             android:text="@string/login_btn_in"
             />
+
         <Button
             style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:id="@+id/btn_registro"

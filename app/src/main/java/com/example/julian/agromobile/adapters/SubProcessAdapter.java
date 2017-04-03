@@ -86,7 +86,7 @@ public class SubProcessAdapter extends BaseAdapter {
         DateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
         DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 
-        fecha =formatoFecha.format(imput)+" a las "+formatoHora.format(imput);
+        fecha =formatoFecha.format(imput)+context.getString(R.string.tothe)+formatoHora.format(imput);
         return fecha;
     }
 }

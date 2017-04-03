@@ -55,7 +55,7 @@ public class CameraAdapter extends BaseAdapter {
         TextView  longitudSensor= (TextView) v.findViewById(R.id.template_camera_sensorsize);
         refCamara.setText(camara.getRefCamara());
         longitudFocal.setText(camara.getLongitudFocal()+"");
-        velocidadCaptura.setText(camara.getVelocidadCaptura()+"fotos/segundo");
+        velocidadCaptura.setText(camara.getVelocidadCaptura()+context.getString(R.string.photosbyseconds));
         resolucion.setText(camara.getResolucionHorizontal()+"x"+camara.getResolucionVertical());
         longitudSensor.setText(camara.getLongitudHorizontalSensor()+"mm X "+camara.getLongitudVerticalSensor()+"mm");
         return v;

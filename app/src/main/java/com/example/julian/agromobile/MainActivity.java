@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         System.out.println(LoginActivity.KEY_USER);
-        getSupportActionBar().setTitle("Procesos");
+        getSupportActionBar().setTitle(R.string.txt_procesos);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         preferences= getSharedPreferences("pref",MODE_PRIVATE);
@@ -246,6 +246,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (dataProcces.isEmpty()){
             System.out.println("holaaaa");
             emptyView.setVisibility(View.VISIBLE);
+        }else{
+            emptyView.setVisibility(View.GONE);
         }
         procesoAdapter.notifyDataSetChanged();
         swipe.setRefreshing(false);

@@ -78,7 +78,7 @@ public class AddCameraActivity extends AppCompatActivity implements View.OnClick
                     camara.setLongitudVerticalSensor(Float.parseFloat(longitudVerticalSensor.getText().toString()));
                     camarasCon.insert(camara);
                 }catch (Exception ex){
-                    Toast.makeText(this,"Error de datos",Toast.LENGTH_SHORT);
+                    Toast.makeText(this, R.string.wrong_data,Toast.LENGTH_SHORT);
                 }
                 //usercon.getAllUsers();
                 //mongo.insertDocument(us,this);
@@ -86,10 +86,10 @@ public class AddCameraActivity extends AppCompatActivity implements View.OnClick
                 // NavigationService.Navigate(new Uri("/IniciarSesion.xaml", UriKind.Relative));
 
             } else {
-                Toast.makeText(this, "Verifique, Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.verify_fields, Toast.LENGTH_SHORT).show();
             }
         }else{
-            Toast.makeText(this, "Error de Red", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_network, Toast.LENGTH_SHORT).show();
         }
 
     }
