@@ -40,6 +40,7 @@ import com.example.julian.agromobile.net.AeronavesCon;
 import com.example.julian.agromobile.net.CamarasCon;
 import com.example.julian.agromobile.net.ProcesosCon;
 import com.example.julian.agromobile.net.SubProcesosCon;
+import com.example.julian.agromobile.util.Vuelo;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 
 import java.text.DateFormat;
@@ -60,9 +61,9 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     View viewPrevio;
     private RadioGroup rdgGrupo;
     private int recurrency;
-    private EditText nombre;
+    private EditText nombre,altura;
     private EditText duracionSemanas;
-    private Button btnSave,btnNextAircraft,btnNextCamera;
+    private Button btnSave,btnNextAircraft,btnNextCamera,btnNextOverVew;
     int contadoSubProcesosRegistrados;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -80,11 +81,12 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     SubProceso subProceso4;
     TextView headerView;
     LinearLayout linear1;
-    RelativeLayout linear2,linear3;
+    RelativeLayout linear2,linear3,linear_resultado;
     int estado;
     FloatingActionButton fabCameras,fabAeronaves;
     Aeronave aeronaveSeleccionada;
     Camara camaraSeleccionada;
+    TextView txtAltura,txtVelocidad,txtDistLineas,txtDistCapturas,noPruebas,aeronavetxt,camaratxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,18 +132,27 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         listViewAeronaves.setAdapter(aircraftAdapter);
         listViewCamaras.setAdapter(cameraAdapter);
         listViewCamaras.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-
+        txtAltura= (TextView) findViewById(R.id.txt_altura);
+        txtVelocidad= (TextView) findViewById(R.id.txt_vel_capture);
+        txtDistLineas = (TextView) findViewById(R.id.txt_dist_lineas);
+        txtDistCapturas= (TextView) findViewById(R.id.txt_dist_capture);
+        noPruebas= (TextView) findViewById(R.id.number_probes);
+        aeronavetxt= (TextView) findViewById(R.id.aircraft_txt);
+        camaratxt= (TextView) findViewById(R.id.camera_txt);
+        altura= (EditText) findViewById(R.id.altura_vuelo);
         rdgGrupo = (RadioGroup)findViewById(R.id.recurrence);
         rdgGrupo.setOnCheckedChangeListener(this);
         nombre = (EditText) findViewById(R.id.txtNameProccess);
+
         duracionSemanas = (EditText) findViewById(R.id.durationWeek);
         btnSave = (Button) findViewById(R.id.btn_save_process);
         btnNextAircraft = (Button) findViewById(R.id.btn_next_aircraft);
         btnNextCamera = (Button) findViewById(R.id.btn_next_camera);
+        btnNextOverVew = (Button) findViewById(R.id.btn_next_overview);
         btnNextCamera.setOnClickListener(this);
         btnNextAircraft.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+        btnNextOverVew.setOnClickListener(this);
         subProcesosCon = new SubProcesosCon(this, this);
         aeronavesCon = new AeronavesCon(this,this);
         camarasCon = new CamarasCon(this,this);
@@ -156,6 +167,7 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         linear1= (LinearLayout) findViewById(R.id.linear1);
         linear2= (RelativeLayout) findViewById(R.id.linear2);
         linear3= (RelativeLayout) findViewById(R.id.linear3);
+        linear_resultado = (RelativeLayout) findViewById(R.id.linear_result);
         usLog = preferences.getString(LoginActivity.KEY_USER,"-1");
         aeronavesCon.getAircraftByIdUser(usLog);
         recurrency=0;
@@ -295,8 +307,8 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
                 subProceso4.setFotorgb(0);
                 switch (recurrency) {
                     case 2: {
-                        subProceso1.setFecha(addDays(fechadeHoy, 1));
-                        subProceso2.setFecha(addDays(fechadeHoy, duracionDias));
+                        subProceso1.setFecha(addDays(fechadeHoy, 0));
+                        subProceso2.setFecha(addDays(fechadeHoy, 1));
 
                         break;
                     }
@@ -308,10 +320,10 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
                         break;
                     }
                     case 4: {
-                        subProceso1.setFecha(addDays(fechadeHoy, 1));
-                        subProceso2.setFecha(addDays(fechadeHoy, duracionDias / 3));
-                        subProceso3.setFecha(addDays(fechadeHoy, 2 * duracionDias / 3));
-                        subProceso4.setFecha(addDays(fechadeHoy, duracionDias));
+                        subProceso1.setFecha(addDays(fechadeHoy, 0));
+                        subProceso2.setFecha(addDays(fechadeHoy, 1));
+                        subProceso3.setFecha(addDays(fechadeHoy, 1));
+                        subProceso4.setFecha(addDays(fechadeHoy, 1));
                     }
                     break;
                 }
@@ -333,11 +345,33 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
             if(aeronaveSeleccionada!=null) {
                 linear2.setVisibility(View.GONE);
                 linear3.setVisibility(View.VISIBLE);
+
                 getSupportActionBar().setTitle(R.string.add_cameras_proces);
                 viewPrevio=null;
                 estado = 2;
             }else{
                 Toast.makeText(this, R.string.txt_select_aircraft,Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(v.getId()==R.id.btn_next_overview){
+            headerView.setText(R.string.step4for4);
+            Vuelo vuelos=new Vuelo();
+            txtAltura.setText(altura.getText().toString());
+            if (camaraSeleccionada != null) {
+                linear3.setVisibility(View.GONE);
+                linear_resultado.setVisibility(View.VISIBLE);
+                proceso.setIdCamara(camaraSeleccionada.getId());
+                proceso.setDistLineasVuelo(vuelos.calcularAnchoEntreLineas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())));
+                proceso.setDistCapturas(vuelos.calcularAnchoEntreCapturas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())));
+                proceso.setVelocidadCaptura(vuelos.calcularVelocidad(vuelos.calcularAnchoEntreCapturas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())), camaraSeleccionada));
+                proceso.setResolucionVuelo(vuelos.calcularResolucion(camaraSeleccionada,Integer.parseInt(altura.getText().toString())));
+                proceso.setAlturaVuelo(Integer.parseInt(altura.getText().toString()));
+                txtDistLineas.setText(""+proceso.getDistLineasVuelo());
+                txtDistCapturas.setText(""+proceso.getDistCapturas());
+                txtVelocidad.setText("" + proceso.getVelocidadCaptura());
+                noPruebas.setText(recurrency + "");
+                aeronavetxt.setText(aeronaveSeleccionada.getReferencia());
+                camaratxt.setText(camaraSeleccionada.getRefCamara());
             }
         }
         if(v.getId()==R.id.btn_save_process) {

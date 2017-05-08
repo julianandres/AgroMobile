@@ -15,6 +15,7 @@ public class SubProceso {
     int numeroenProceso;
     int estado;
     int fotorgb;
+    String urlResultado;
     int fotonoir;
 
     public int getFotorgb() {
@@ -79,5 +80,13 @@ public class SubProceso {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    public String getUrlResultado() {
+        return urlResultado;
+    }
+
+    public void setUrlResultado(String urlResultado) {
+        this.urlResultado = urlResultado;
     }
 }

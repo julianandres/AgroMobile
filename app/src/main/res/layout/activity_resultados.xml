@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_resultados"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.julian.agromobile.ResultadosActivity">
+    <ImageView
+       android:id="@+id/image_resultados"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+    <LinearLayout
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:layout_height="20dp">
+            <ImageView
+                android:id="@+id/image_sanas"
+                android:src="@drawable/healthy_plants"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_sanas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="Plantas Sanas"
+            android:textSize="15sp"
+            android:maxLines="1"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:layout_height="20dp">
+            <ImageView
+                android:id="@+id/image_con_problemas"
+                android:layout_width="wrap_content"
+                android:src="@drawable/defects_plants"
+                android:layout_height="20dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_con_problemas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="Plantas con problemas"
+            android:textSize="15sp"
+            android:maxLines="1"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:layout_height="20dp">
+            <ImageView
+                android:id="@+id/image_suelo"
+                android:layout_width="match_parent"
+                android:src="@drawable/other"
+                android:layout_height="70dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_suelo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="Suelo, agua u otros"
+            android:textSize="15sp"
+            android:maxLines="1"
+            />
+    </LinearLayout>
+
+</LinearLayout>

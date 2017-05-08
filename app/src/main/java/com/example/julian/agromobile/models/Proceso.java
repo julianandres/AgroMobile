@@ -19,6 +19,11 @@ public class Proceso {
     private boolean state;
     private Date fechaFin;
     private int subProcesoActual;
+    private double distLineasVuelo;
+    private double distCapturas;
+    private double velocidadCaptura;
+    private int alturaVuelo;
+    private double resolucionVuelo;
 
     public String getIdAeronave() {
         return idAeronave;
@@ -99,7 +104,55 @@ public class Proceso {
         this.idUsuario = idUsuario;
     }
 
+    public String getIdCamara() {
+        return idCamara;
+    }
+
+    public void setIdCamara(String idCamara) {
+        this.idCamara = idCamara;
+    }
+
+    public double getDistLineasVuelo() {
+        return distLineasVuelo;
+    }
+
+    public void setDistLineasVuelo(double distLineasVuelo) {
+        this.distLineasVuelo = distLineasVuelo;
+    }
+
+    public double getDistCapturas() {
+        return distCapturas;
+    }
+
+    public void setDistCapturas(double distCapturas) {
+        this.distCapturas = distCapturas;
+    }
+
+    public double getVelocidadCaptura() {
+        return velocidadCaptura;
+    }
+
+    public void setVelocidadCaptura(double velocidadCaptura) {
+        this.velocidadCaptura = velocidadCaptura;
+    }
+
     public Proceso(){
 
+    }
+
+    public double getResolucionVuelo() {
+        return resolucionVuelo;
+    }
+
+    public void setResolucionVuelo(double resolucionVuelo) {
+        this.resolucionVuelo = resolucionVuelo;
+    }
+
+    public int getAlturaVuelo() {
+        return alturaVuelo;
+    }
+
+    public void setAlturaVuelo(int alturaVuelo) {
+        this.alturaVuelo = alturaVuelo;
     }
 }

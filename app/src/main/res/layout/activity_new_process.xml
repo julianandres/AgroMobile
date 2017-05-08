@@ -36,7 +36,12 @@
             android:layout_height="wrap_content"
             android:hint="@string/duracion_en_semanas"
             android:inputType="number" />
-
+        <EditText
+            android:id="@+id/altura_vuelo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/altura_de_vuelo"
+            android:inputType="number" />
         <TextView
 
             android:layout_width="match_parent"
@@ -159,6 +164,198 @@
                 app:fabSize="normal"
                 app:rippleColor="@color/primaryDark" />
             <Button
+                android:id="@+id/btn_next_overview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/txt_siguiente"
+                android:theme="@style/ButtonAccent" />
+        </LinearLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/linear_result"
+        android:layout_below="@id/header_np"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/template_aircraft_ref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="Datos del proceso"
+                android:textSize="15sp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textColor="#000000"
+                    android:text="Aeronave"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:id="@+id/aircraft_txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:text="Aeronave"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textColor="#000000"
+                    android:text="Cámara"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:id="@+id/camera_txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:text="Cámara"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textColor="#000000"
+                    android:text="No/pruebas"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:id="@+id/number_probes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:text="Numero Pruebas"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/template_fly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="Datos de vuelo"
+                android:textSize="15sp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textColor="#000000"
+                    android:text="Altura de vuelo"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:id="@+id/txt_altura"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:text="Altura"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textColor="#000000"
+                    android:text="Dist Lineas de Vuelo"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:id="@+id/txt_dist_lineas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:text="Distancia vuelos"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textColor="#000000"
+                    android:text="Distancia capturas"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:id="@+id/txt_dist_capture"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:text="Distancia entre capturas"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textColor="#000000"
+                    android:text="Vel captura"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:id="@+id/txt_vel_capture"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:text="Velocidad de captura"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+            <Button
                 android:id="@+id/btn_save_process"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -166,6 +363,7 @@
                 android:text="@string/Guardar"
                 android:theme="@style/ButtonAccent" />
         </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

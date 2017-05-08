@@ -3,8 +3,9 @@
     package="com.example.julian.agromobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,15 +22,15 @@
             android:name=".LoginActivity"
             android:theme="@style/NoAppBar" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".NewProcessActivity"
-                  android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity
+            android:name=".NewProcessActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".ProcessActivity" />
-        <activity android:name=".CalculatorActivity" />
         <activity android:name=".AddUAVActivity" />
         <activity android:name=".AeronavesActivity" />
         <activity android:name=".AddCameraActivity" />
-        <activity android:name=".CamerasActivity"></activity>
-
+        <activity android:name=".CamerasActivity" />
+        <activity android:name=".ResultadosActivity"></activity>
     </application>
 
 </manifest>

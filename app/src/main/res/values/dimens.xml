@@ -12,4 +12,5 @@
     <dimen name="header_margin">10dp</dimen>
     <dimen name="template_icon">26dp</dimen>
     <dimen name="template_padding_small">5dp</dimen>
+    <dimen name="noti_width">100dp</dimen>
 </resources>

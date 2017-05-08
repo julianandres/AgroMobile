@@ -9,10 +9,6 @@
         android:title="@string/camaras"
         android:icon="@android:drawable/ic_menu_camera"
         />
-    <item android:id="@+id/nav_calculator"
-        android:title="@string/txtCalculator"
-        android:icon="@android:drawable/ic_menu_agenda"
-        />
 
     <item android:id="@+id/nav_guide"
         android:title="@string/txtGuide"

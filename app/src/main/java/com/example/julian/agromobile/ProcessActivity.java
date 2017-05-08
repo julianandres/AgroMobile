@@ -1,6 +1,7 @@
 package com.example.julian.agromobile;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import com.example.julian.agromobile.models.Proceso;
 import com.example.julian.agromobile.models.SubProceso;
 import com.example.julian.agromobile.net.ProcesosCon;
 import com.example.julian.agromobile.net.SubProcesosCon;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,6 +30,7 @@ import java.util.List;
 public class ProcessActivity extends AppCompatActivity implements ProcesosCon.ProcesoConI, SubProcesosCon.SubProcesoConI, AdapterView.OnItemClickListener {
 
     public static final String KEY_ID = "keyid" ;
+    public static final String IMG_RESULTADO = "keyid" ;
 
     TextView nombre,fechaInicio,fechaFin,estado;
     ListView subProcessList;
@@ -36,6 +40,8 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
     Proceso proceso;
     SubProcessAdapter subProcessAdapter;
     List<SubProceso> dataSubProcess;
+    TextView txtAltura,txtVelocidad,txtDistLineas,txtDistCapturas,txtResolucion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +62,11 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
         subProcessAdapter = new SubProcessAdapter(getApplication(),dataSubProcess);
         subProcessList.setAdapter(subProcessAdapter);
         subProcessList.setOnItemClickListener(this);
-
+        txtAltura= (TextView) findViewById(R.id.txt_altura);
+        txtVelocidad= (TextView) findViewById(R.id.txt_vel_capture);
+        txtDistLineas = (TextView) findViewById(R.id.txt_dist_lineas);
+        txtDistCapturas= (TextView) findViewById(R.id.txt_dist_capture);
+        txtResolucion= (TextView) findViewById(R.id.txt_resolution);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //TODO IMPLEMETAR UN ALERT DIALOG PARA DETALLES DE SUBPROCESO
 
@@ -78,12 +88,19 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
     public void onReadProcessCompleted(List<Proceso> result) {
          if(result!=null){
              proceso=result.get(0);
+             DecimalFormat df = new DecimalFormat("#.00");
+             txtDistLineas.setText(""+df.format(proceso.getDistLineasVuelo()));
+             txtDistCapturas.setText(""+df.format(proceso.getDistCapturas()));
+             txtVelocidad.setText("" + df.format(proceso.getVelocidadCaptura()));
+             txtResolucion.setText(df.format(proceso.getResolucionVuelo()));
+             txtAltura.setText(proceso.getAlturaVuelo()+"");
              getSupportActionBar().setTitle(R.string.txt_process);
              nombre.setText(proceso.getNombre());
              fechaInicio.setText(getString(R.string.txt_init_on)+formatDate(proceso.getFechaInicio()));
              fechaFin.setText(getString(R.string.txt_finish_on)+formatDate(proceso.getFechaFin()));
              if(!proceso.isState()){
                  estado.setText(R.string.finish);
+                 //TODO habilitar ver resultados
              }else{
                  estado.setText(R.string.on_process);
              }
@@ -163,7 +180,10 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
                 mensaje = getString(R.string.input_to_sistemweb);
             }else{
                 if (dataSubProcess.get(position).getEstado() == 2) {
-                    mensaje = getString(R.string.already_upload_);
+                    mensaje = getString(R.string.information_upload_correcltly);
+                    Intent intent = new Intent(this, ResultadosActivity.class);
+                    intent.putExtra(ProcessActivity.IMG_RESULTADO,dataSubProcess.get(position).getUrlResultado());
+                    startActivity(intent);
                 }else{
                     if (dataSubProcess.get(position).getEstado() == 3) {
                         mensaje = getString(R.string.information_upload_correcltly);
@@ -175,14 +195,15 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
 
             }
         }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(mensaje);
-        builder.setTitle(dataSubProcess.get(position).getNombre());
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        }).create().show();
+        if (dataSubProcess.get(position).getEstado() != 2) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(mensaje);
+            builder.setTitle(dataSubProcess.get(position).getNombre());
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            }).create().show();
+        }
     }
     public Date addDays(Date fecha, int dias) {
         Date dato = fecha;

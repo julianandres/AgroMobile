@@ -106,6 +106,8 @@
     <string name="dimen_sensor">Sensor/Dime</string>
     <string name="vel_captura">Cap/Speed</string>
     <string name="txt_cameras">Cameras</string>
+    <string name="resumen_del_vuelo">Resumen del vuelo</string>
+    <string name="altura_de_vuelo">Altura de vuelo</string>
 
 
 </resources>
