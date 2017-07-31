@@ -53,7 +53,8 @@
     <string name="txt_guardar">Save</string>
     <string name="txt_no_se_han_agregado_aeronaves">No aircraft added</string>
     <string name="txt_no_se_han_agregado_camaras">No Cameras added</string>
-    <string name="txt_paso_1_de_3">Step 1 of 3</string>
+    <string name="txt_step2of3">Step 2 of 4</string>
+    <string name="txt_paso_1_de_3">Step 1 of 4</string>
     <string name="txt_siguiente">Next</string>
     <string name="txt_nombre">Name</string>
     <string name="txt_estado">State</string>
@@ -69,7 +70,7 @@
     <string name="task_3">"Task 3 of "</string>
     <string name="task_4">"Task 4 of "</string>
     <string name="txt_add_aeronaves">Add aircraft to process</string>
-    <string name="txt_process_3_step_3">Step 3 of 3</string>
+    <string name="txt_process_3_step_3">Step 3 of 4</string>
     <string name="add_cameras_proces">Add cameras to process</string>
     <string name="txt_select_aircraft">Select an aircraft</string>
     <string name="select_a_camera">Select a camera</string>
@@ -108,6 +109,6 @@
     <string name="txt_cameras">Cameras</string>
     <string name="resumen_del_vuelo">Resumen del vuelo</string>
     <string name="altura_de_vuelo">Altura de vuelo</string>
-
+    <string name="step4for4">Step 4 of 4</string>
 
 </resources>

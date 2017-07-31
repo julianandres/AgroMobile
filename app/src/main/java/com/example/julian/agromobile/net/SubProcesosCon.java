@@ -50,7 +50,7 @@ public class SubProcesosCon {
             @Override
             public void onSuccess(SubProceso result) {
                // Toast.makeText(con, "Registro Completado" + result.getNombre(), Toast.LENGTH_SHORT).show();
-                SubProcesoConI.onRegisterSubProcessCompleted();
+                SubProcesoConI.onRegisterSubProcessCompleted(result);
                 //TODO COLOCAR UN MENSAJE DE ERROR EL CUAL DIGA QUE EXISTIÓ UN ERROR EN EL REGISTRO
             }
         });
@@ -117,7 +117,7 @@ public class SubProcesosCon {
 
     public interface SubProcesoConI {
         public void onReadSubProcessCompleted(List<SubProceso> result);
-        public void onRegisterSubProcessCompleted();
+        public void onRegisterSubProcessCompleted(SubProceso subProceso);
     }
 
 

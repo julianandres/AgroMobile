@@ -89,11 +89,11 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
          if(result!=null){
              proceso=result.get(0);
              DecimalFormat df = new DecimalFormat("#.00");
-             txtDistLineas.setText(""+df.format(proceso.getDistLineasVuelo()));
-             txtDistCapturas.setText(""+df.format(proceso.getDistCapturas()));
-             txtVelocidad.setText("" + df.format(proceso.getVelocidadCaptura()));
-             txtResolucion.setText(df.format(proceso.getResolucionVuelo()));
-             txtAltura.setText(proceso.getAlturaVuelo()+"");
+             txtDistLineas.setText(""+df.format(proceso.getDistLineasVuelo())+" metros");
+             txtDistCapturas.setText(""+df.format(proceso.getDistCapturas())+ " metros");
+             txtVelocidad.setText("" + df.format(proceso.getVelocidadCaptura())+ "metros/segundo");
+             txtResolucion.setText(df.format(proceso.getResolucionVuelo())+ "metros/píxel");
+             txtAltura.setText(proceso.getAlturaVuelo()+" metros");
              getSupportActionBar().setTitle(R.string.txt_process);
              nombre.setText(proceso.getNombre());
              fechaInicio.setText(getString(R.string.txt_init_on)+formatDate(proceso.getFechaInicio()));
@@ -157,7 +157,7 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
     }
 
     @Override
-    public void onRegisterSubProcessCompleted() {
+    public void onRegisterSubProcessCompleted(SubProceso subProceso) {
 
     }
 
@@ -187,6 +187,9 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
                 }else{
                     if (dataSubProcess.get(position).getEstado() == 3) {
                         mensaje = getString(R.string.information_upload_correcltly);
+                        Intent intent = new Intent(this, ResultadosActivity.class);
+                        intent.putExtra(ProcessActivity.IMG_RESULTADO,dataSubProcess.get(position).getUrlResultado());
+                        startActivity(intent);
                     }else{
                         mensaje = getString(R.string.process_lost);
                     }
@@ -195,7 +198,7 @@ public class ProcessActivity extends AppCompatActivity implements ProcesosCon.Pr
 
             }
         }
-        if (dataSubProcess.get(position).getEstado() != 2) {
+        if (dataSubProcess.get(position).getEstado() != 2 && dataSubProcess.get(position).getEstado() != 3) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(mensaje);
             builder.setTitle(dataSubProcess.get(position).getNombre());

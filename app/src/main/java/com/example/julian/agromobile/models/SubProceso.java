@@ -17,6 +17,7 @@ public class SubProceso {
     int fotorgb;
     String urlResultado;
     int fotonoir;
+    int idautoincrement;
 
     public int getFotorgb() {
         return fotorgb;
@@ -88,5 +89,13 @@ public class SubProceso {
 
     public void setUrlResultado(String urlResultado) {
         this.urlResultado = urlResultado;
+    }
+
+    public int getIdautoincrement() {
+        return idautoincrement;
+    }
+
+    public void setIdautoincrement(int idautoincrement) {
+        this.idautoincrement = idautoincrement;
     }
 }

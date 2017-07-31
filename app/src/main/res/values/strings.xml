@@ -32,7 +32,7 @@
     <string name="correo">Correo</string>
     <string name="name">Nombre</string>
     <string name="register">Register</string>
-    <string name="Guardar">Save</string>
+    <string name="Guardar">Guardar</string>
     <string name="nombre">Nombre</string>
     <string name="duracion_en_semanas">Duracion en Semanas</string>
     <string name="n_mero_de_pruebas">Número de pruebas</string>
@@ -52,7 +52,7 @@
     <string name="txt_guardar">Guardar</string>
     <string name="txt_no_se_han_agregado_aeronaves">No se han agregado aeronaves</string>
     <string name="txt_no_se_han_agregado_camaras">No se han agregado Camaras</string>
-    <string name="txt_paso_1_de_3">Paso 1 de 3</string>
+    <string name="txt_paso_1_de_3">Paso 1 de 4</string>
     <string name="txt_siguiente">Siguiente</string>
     <string name="txt_nombre">Nombre</string>
     <string name="txt_estado">Estado</string>
@@ -62,13 +62,13 @@
     <string name="txt_registrarme">Registrarme</string>
     <string name="txt_procesos">Procesos</string>
     <string name="txt_new_process">Nuevo Proceso</string>
-    <string name="txt_step2of3">paso 2 de 3</string>
+    <string name="txt_step2of3">paso 2 de 4</string>
     <string name="txt_task">"Tarea 1 de "</string>
     <string name="txt_task2">"Tarea 2 de "</string>
     <string name="task_3">"Tarea 3 de "</string>
     <string name="task_4">"Tarea 4 de "</string>
     <string name="txt_add_aeronaves">Agregar aeronaves a Proceso</string>
-    <string name="txt_process_3_step_3">paso 3 de 3</string>
+    <string name="txt_process_3_step_3">paso 3 de 4</string>
     <string name="add_cameras_proces">Agregar cámaras al proceso</string>
     <string name="txt_select_aircraft">Seleccione una aeronave</string>
     <string name="select_a_camera">Seleccione una cámara</string>

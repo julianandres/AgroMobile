@@ -9,6 +9,7 @@ import java.util.Date;
 public class Proceso {
 
     private String id;
+    private String idproceso;
     private String nombre;
     private String idUsuario;
     private String idAeronave;
@@ -138,6 +139,14 @@ public class Proceso {
 
     public Proceso(){
 
+    }
+
+    public String getIdproceso() {
+        return idproceso;
+    }
+
+    public void setIdproceso(String idproceso) {
+        this.idproceso = idproceso;
     }
 
     public double getResolucionVuelo() {

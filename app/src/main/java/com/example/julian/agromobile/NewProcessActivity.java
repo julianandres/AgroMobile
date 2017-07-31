@@ -1,11 +1,14 @@
 package com.example.julian.agromobile;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PersistableBundle;
@@ -86,35 +89,42 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     FloatingActionButton fabCameras,fabAeronaves;
     Aeronave aeronaveSeleccionada;
     Camara camaraSeleccionada;
+    Boolean permisosRead,permisosWrite;
     TextView txtAltura,txtVelocidad,txtDistLineas,txtDistCapturas,noPruebas,aeronavetxt,camaratxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_process);
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)!= PackageManager.PERMISSION_GRANTED) {
-            System.out.println("holaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssss");
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CALENDAR)) {} else { ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CALENDAR},
-                    1);
-            }
+        permisosRead=false;
+        permisosWrite=false;
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosRead=true;
         }
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)!= PackageManager.PERMISSION_GRANTED) {
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_CALENDAR)) {
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosWrite=true;
+        }
+        if(permisosRead&&permisosWrite){
 
-            } else {
-
-                // No explanation needed, we can request the permission.
-
+        }else{
+            if(!permisosWrite&&!permisosRead){
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        new String[]{Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR},
                         1);
+            }else {
+                if (!permisosWrite) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_CALENDAR},
+                            1);
+                }
+                if(!permisosRead){
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CALENDAR},
+                            1);
+                }
             }
         }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.txt_new_process);
 
@@ -209,6 +219,32 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
 
     @Override
     protected void onResume() {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosRead=true;
+        }
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosWrite=true;
+        }
+        if(permisosRead&&permisosWrite){
+
+        }else{
+            if(!permisosWrite&&!permisosRead){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR},
+                        1);
+            }else {
+                if (!permisosWrite) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_CALENDAR},
+                            1);
+                }
+                if(!permisosRead){
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CALENDAR},
+                            1);
+                }
+            }
+        }
         aeronavesCon.getAircraftByIdUser(usLog);
         camarasCon.getAllCameras();
         super.onResume();
@@ -229,6 +265,38 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosRead=true;
+        }
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosWrite=true;
+        }
+        if(permisosRead&&permisosWrite){
+
+        }else{
+            if(!permisosWrite&&!permisosRead){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR},
+                        1);
+            }else {
+                if (!permisosWrite) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_CALENDAR},
+                            1);
+                }
+                if(!permisosRead){
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CALENDAR},
+                            1);
+                }
+            }
+        }
+    }
+
+
+    @Override
     public void onClick(View v) {
         if(v.getId()==R.id.fab_aircrafts_process){
             Intent intent = new Intent(this, AddUAVActivity.class);
@@ -240,182 +308,198 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
             intent.putExtra(LoginActivity.KEY_USER_NAME, usLog);
             startActivity(intent);
         }
-        
-        
-        //region
-        if(v.getId()==R.id.btn_next_aircraft){
-            headerView.setText(R.string.txt_step2of3);
-            if (!nombre.getText().toString().equals("") && !duracionSemanas.getText().toString().equals("") && recurrency != 0) {
-                proceso = new Proceso();
-                Date fechaInicio = new Date();
-                Date fechaFin = new Date();
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosRead=true;
+        }
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)!= PackageManager.PERMISSION_GRANTED) {
+            permisosWrite=true;
+        }
+        if(permisosRead&&permisosWrite){
+            if(v.getId()==R.id.btn_next_aircraft){
+                headerView.setText(R.string.txt_step2of3);
+                if (!nombre.getText().toString().equals("")&&!altura.getText().toString().equals("") && !duracionSemanas.getText().toString().equals("") && recurrency != 0) {
+                    proceso = new Proceso();
+                    Date fechaInicio = new Date();
+                    Date fechaFin = new Date();
 
-                int duracionSemanasEntero = Integer.parseInt(duracionSemanas.getText().toString());
-                int duracionDias = duracionSemanasEntero * 7;
+                    int duracionSemanasEntero = Integer.parseInt(duracionSemanas.getText().toString());
+                    int duracionDias = duracionSemanasEntero * 7;
 
-                proceso.setNombre(nombre.getText().toString());
-                Date imput;
-                imput = fechaInicio;
-                String fecha = "";
-                DateFormat formatoHora = new SimpleDateFormat("HHmmss");
-                DateFormat formatoFecha = new SimpleDateFormat("ddMMyyyy");
+                    proceso.setNombre(nombre.getText().toString());
+                    Date imput;
+                    imput = fechaInicio;
+                    String fecha = "";
+                    DateFormat formatoHora = new SimpleDateFormat("HHmmss");
+                    DateFormat formatoFecha = new SimpleDateFormat("ddMMyyyy");
 
-                fecha = formatoFecha.format(imput) + "" + formatoHora.format(imput);
-                System.out.println(fecha);
-                proceso.setId(fecha);
-                Date fechadeHoy = new Date();
-                GregorianCalendar fechaHoy = new GregorianCalendar();
-                GregorianCalendar config = new GregorianCalendar();
-                fechaHoy.setTime(fechadeHoy);
+                    fecha = formatoFecha.format(imput) + "" + formatoHora.format(imput);
+                    System.out.println(fecha);
+                    proceso.setId(fecha);
+                    Date fechadeHoy = new Date();
+                    GregorianCalendar fechaHoy = new GregorianCalendar();
+                    GregorianCalendar config = new GregorianCalendar();
+                    fechaHoy.setTime(fechadeHoy);
 
-                proceso.setFechaInicio(fechadeHoy);
-                proceso.setFechaFin(addDays(fechadeHoy, duracionDias));
+                    proceso.setFechaInicio(fechadeHoy);
+                    proceso.setFechaFin(addDays(fechadeHoy, duracionDias));
 
-                proceso.setDuracionSemanas(duracionSemanasEntero);
+                    proceso.setDuracionSemanas(duracionSemanasEntero);
 
-                proceso.setState(true);
-                proceso.setNumeroSubprocesos(recurrency);
-                proceso.setSubProcesoActual(1);
-                proceso.setIdUsuario(usLog);
-                subProceso1 = new SubProceso();
-                subProceso2 = new SubProceso();
-                subProceso3 = new SubProceso();
-                subProceso4 = new SubProceso();
-                subProceso1.setNumeroenProceso(1);
-                subProceso2.setNumeroenProceso(2);
-                subProceso3.setNumeroenProceso(3);
-                subProceso4.setNumeroenProceso(4);
-                subProceso1.setNombre(getString(R.string.txt_task) + proceso.getNombre());
-                subProceso2.setNombre(getString(R.string.txt_task2) + proceso.getNombre());
-                subProceso3.setNombre(getString(R.string.task_3) + proceso.getNombre());
-                subProceso4.setNombre(getString(R.string.task_4) + proceso.getNombre());
-                subProceso1.setIdProceso(proceso.getId());
-                subProceso2.setIdProceso(proceso.getId());
-                subProceso3.setIdProceso(proceso.getId());
-                subProceso4.setIdProceso(proceso.getId());
-                subProceso1.setEstado(0);
-                subProceso2.setEstado(0);
-                subProceso3.setEstado(0);
-                subProceso4.setEstado(0);
-                subProceso1.setFotonoir(0);
-                subProceso2.setFotonoir(0);
-                subProceso3.setFotonoir(0);
-                subProceso4.setFotonoir(0);
-                subProceso1.setFotorgb(0);
-                subProceso2.setFotorgb(0);
-                subProceso3.setFotorgb(0);
-                subProceso4.setFotorgb(0);
-                switch (recurrency) {
-                    case 2: {
-                        subProceso1.setFecha(addDays(fechadeHoy, 0));
-                        subProceso2.setFecha(addDays(fechadeHoy, 1));
+                    proceso.setState(true);
+                    proceso.setNumeroSubprocesos(recurrency);
+                    proceso.setSubProcesoActual(1);
+                    proceso.setIdUsuario(usLog);
+                    subProceso1 = new SubProceso();
+                    subProceso2 = new SubProceso();
+                    subProceso3 = new SubProceso();
+                    subProceso4 = new SubProceso();
+                    subProceso1.setNumeroenProceso(1);
+                    subProceso2.setNumeroenProceso(2);
+                    subProceso3.setNumeroenProceso(3);
+                    subProceso4.setNumeroenProceso(4);
+                    subProceso1.setNombre(getString(R.string.txt_task) + proceso.getNombre());
+                    subProceso2.setNombre(getString(R.string.txt_task2) + proceso.getNombre());
+                    subProceso3.setNombre(getString(R.string.task_3) + proceso.getNombre());
+                    subProceso4.setNombre(getString(R.string.task_4) + proceso.getNombre());
+                    subProceso1.setIdProceso(proceso.getId());
+                    subProceso2.setIdProceso(proceso.getId());
+                    subProceso3.setIdProceso(proceso.getId());
+                    subProceso4.setIdProceso(proceso.getId());
+                    subProceso1.setEstado(0);
+                    subProceso2.setEstado(0);
+                    subProceso3.setEstado(0);
+                    subProceso4.setEstado(0);
+                    subProceso1.setFotonoir(0);
+                    subProceso2.setFotonoir(0);
+                    subProceso3.setFotonoir(0);
+                    subProceso4.setFotonoir(0);
+                    subProceso1.setFotorgb(0);
+                    subProceso2.setFotorgb(0);
+                    subProceso3.setFotorgb(0);
+                    subProceso4.setFotorgb(0);
+                    switch (recurrency) {
+                        case 2: {
+                            subProceso1.setFecha(addDays(fechadeHoy, 0));
+                            subProceso2.setFecha(addDays(fechadeHoy, 1));
 
+                            break;
+                        }
+                        case 3: {
+                            subProceso1.setFecha(addDays(fechadeHoy, 0));
+                            subProceso2.setFecha(addDays(fechadeHoy, 1));
+                            subProceso3.setFecha(addDays(fechadeHoy, 1));
+
+                            break;
+                        }
+                        case 4: {
+                            subProceso1.setFecha(addDays(fechadeHoy, 0));
+                            subProceso2.setFecha(addDays(fechadeHoy, 1));
+                            subProceso3.setFecha(addDays(fechadeHoy, 1));
+                            subProceso4.setFecha(addDays(fechadeHoy, 1));
+                        }
                         break;
                     }
-                    case 3: {
-                        subProceso1.setFecha(addDays(fechadeHoy, 1));
-                        subProceso2.setFecha(addDays(fechadeHoy, duracionDias / 2));
-                        subProceso3.setFecha(addDays(fechadeHoy, duracionDias));
-
-                        break;
-                    }
-                    case 4: {
-                        subProceso1.setFecha(addDays(fechadeHoy, 0));
-                        subProceso2.setFecha(addDays(fechadeHoy, 1));
-                        subProceso3.setFecha(addDays(fechadeHoy, 1));
-                        subProceso4.setFecha(addDays(fechadeHoy, 1));
-                    }
-                    break;
+                    linear1.setVisibility(View.GONE);
+                    linear2.setVisibility(View.VISIBLE);
+                    estado=1;
+                    getSupportActionBar().setTitle(R.string.txt_add_aeronaves);
+                    System.out.println("estadoooooooooooooo");
+                    //TODO CREAR ALERT DIALOG PARA CONFIRMAR FECHAS Y NOMBRES
+                    //TODO COLOCAR LOS CALENDARIOS
+                    //TODO REALIZAR LAS VALIDACIONES CORRESPONDIENTES
+                } else {
+                    Toast.makeText(this, R.string.error_fields, Toast.LENGTH_SHORT).show();
                 }
-                linear1.setVisibility(View.GONE);
-                linear2.setVisibility(View.VISIBLE);
-                estado=1;
-                getSupportActionBar().setTitle(R.string.txt_add_aeronaves);
-                System.out.println("estadoooooooooooooo");
-                //TODO CREAR ALERT DIALOG PARA CONFIRMAR FECHAS Y NOMBRES
-                //TODO COLOCAR LOS CALENDARIOS
-                //TODO REALIZAR LAS VALIDACIONES CORRESPONDIENTES
-            } else {
-                Toast.makeText(this, R.string.error_fields, Toast.LENGTH_SHORT).show();
             }
-        }
-        if(v.getId()==R.id.btn_next_camera){
-            headerView.setText(R.string.txt_process_3_step_3);
-            System.out.println("holaaaaa");
-            if(aeronaveSeleccionada!=null) {
-                linear2.setVisibility(View.GONE);
-                linear3.setVisibility(View.VISIBLE);
+            if(v.getId()==R.id.btn_next_camera){
+                headerView.setText(R.string.txt_process_3_step_3);
+                System.out.println("holaaaaa");
+                if(aeronaveSeleccionada!=null) {
+                    linear2.setVisibility(View.GONE);
+                    linear3.setVisibility(View.VISIBLE);
 
-                getSupportActionBar().setTitle(R.string.add_cameras_proces);
-                viewPrevio=null;
-                estado = 2;
-            }else{
-                Toast.makeText(this, R.string.txt_select_aircraft,Toast.LENGTH_SHORT).show();
-            }
-        }
-        if(v.getId()==R.id.btn_next_overview){
-            headerView.setText(R.string.step4for4);
-            Vuelo vuelos=new Vuelo();
-            txtAltura.setText(altura.getText().toString());
-            if (camaraSeleccionada != null) {
-                linear3.setVisibility(View.GONE);
-                linear_resultado.setVisibility(View.VISIBLE);
-                proceso.setIdCamara(camaraSeleccionada.getId());
-                proceso.setDistLineasVuelo(vuelos.calcularAnchoEntreLineas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())));
-                proceso.setDistCapturas(vuelos.calcularAnchoEntreCapturas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())));
-                proceso.setVelocidadCaptura(vuelos.calcularVelocidad(vuelos.calcularAnchoEntreCapturas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())), camaraSeleccionada));
-                proceso.setResolucionVuelo(vuelos.calcularResolucion(camaraSeleccionada,Integer.parseInt(altura.getText().toString())));
-                proceso.setAlturaVuelo(Integer.parseInt(altura.getText().toString()));
-                txtDistLineas.setText(""+proceso.getDistLineasVuelo());
-                txtDistCapturas.setText(""+proceso.getDistCapturas());
-                txtVelocidad.setText("" + proceso.getVelocidadCaptura());
-                noPruebas.setText(recurrency + "");
-                aeronavetxt.setText(aeronaveSeleccionada.getReferencia());
-                camaratxt.setText(camaraSeleccionada.getRefCamara());
-            }
-        }
-        if(v.getId()==R.id.btn_save_process) {
-
-            if (camaraSeleccionada != null) {
-                estado=3;
-                switch (recurrency) {
-                    case 2: {
-                        addEvent(subProceso1.getId(),subProceso1);
-                        addEvent(subProceso2.getId(),subProceso2);
-                        subProcesosCon.insert(subProceso1);
-                        subProcesosCon.insert(subProceso2);
-
-                        break;
-                    }
-                    case 3: {
-                        addEvent(subProceso1.getId(),subProceso1);
-                        addEvent(subProceso2.getId(),subProceso2);
-                        addEvent(subProceso3.getId(),subProceso3);
-                        subProcesosCon.insert(subProceso1);
-                        subProcesosCon.insert(subProceso2);
-                        subProcesosCon.insert(subProceso3);
-
-                        break;
-                    }
-                    case 4: {
-                        addEvent(subProceso1.getId(),subProceso1);
-                        addEvent(subProceso2.getId(),subProceso2);
-                        addEvent(subProceso3.getId(),subProceso3);
-                        addEvent(subProceso4.getId(),subProceso4);
-                        subProcesosCon.insert(subProceso1);
-                        subProcesosCon.insert(subProceso2);
-                        subProcesosCon.insert(subProceso3);
-                        subProcesosCon.insert(subProceso4);
-
-                    }
-                    break;
+                    getSupportActionBar().setTitle(R.string.add_cameras_proces);
+                    viewPrevio=null;
+                    estado = 2;
+                }else{
+                    Toast.makeText(this, R.string.txt_select_aircraft,Toast.LENGTH_SHORT).show();
                 }
-                proceso.setIdAeronave("idaeronave");
-                //TODO implementar las id del avion y la cámara
-            }else{
-                Toast.makeText(this, R.string.select_a_camera,Toast.LENGTH_SHORT).show();
+            }
+            if(v.getId()==R.id.btn_next_overview){
+                getSupportActionBar().setTitle("Resumen "+proceso.getNombre());
+                headerView.setText(R.string.step4for4);
+                Vuelo vuelos=new Vuelo();
+                txtAltura.setText(altura.getText().toString());
+                if (camaraSeleccionada != null) {
+                    linear3.setVisibility(View.GONE);
+                    linear_resultado.setVisibility(View.VISIBLE);
+                    proceso.setIdCamara(camaraSeleccionada.getId());
+                    proceso.setDistLineasVuelo(vuelos.calcularAnchoEntreLineas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())));
+                    proceso.setDistCapturas(vuelos.calcularAnchoEntreCapturas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())));
+                    proceso.setVelocidadCaptura(vuelos.calcularVelocidad(vuelos.calcularAnchoEntreCapturas(camaraSeleccionada, aeronaveSeleccionada, Integer.parseInt(altura.getText().toString())), camaraSeleccionada));
+                    proceso.setResolucionVuelo(vuelos.calcularResolucion(camaraSeleccionada,Integer.parseInt(altura.getText().toString())));
+                    proceso.setAlturaVuelo(Integer.parseInt(altura.getText().toString()));
+                    txtDistLineas.setText(""+proceso.getDistLineasVuelo());
+                    txtDistCapturas.setText(""+proceso.getDistCapturas());
+                    txtVelocidad.setText("" + proceso.getVelocidadCaptura());
+                    noPruebas.setText(recurrency + "");
+                    aeronavetxt.setText(aeronaveSeleccionada.getReferencia());
+                    camaratxt.setText(camaraSeleccionada.getRefCamara());
+                }
+            }
+            if(v.getId()==R.id.btn_save_process) {
+
+                if (camaraSeleccionada != null) {
+                    estado=3;
+                    switch (recurrency) {
+                        case 2: {
+                            subProcesosCon.insert(subProceso1);
+                            subProcesosCon.insert(subProceso2);
+
+                            break;
+                        }
+                        case 3: {
+                            subProcesosCon.insert(subProceso1);
+                            subProcesosCon.insert(subProceso2);
+                            subProcesosCon.insert(subProceso3);
+
+                            break;
+                        }
+                        case 4: {
+                            subProcesosCon.insert(subProceso1);
+                            subProcesosCon.insert(subProceso2);
+                            subProcesosCon.insert(subProceso3);
+                            subProcesosCon.insert(subProceso4);
+
+                        }
+                        break;
+                    }
+                    proceso.setIdAeronave("idaeronave");
+                    //TODO implementar las id del avion y la cámara
+                }else{
+                    Toast.makeText(this, R.string.select_a_camera,Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }else{
+            if(!permisosWrite&&!permisosRead){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR},
+                        1);
+            }else {
+                if (!permisosWrite) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_CALENDAR},
+                            1);
+                }
+                if(!permisosRead){
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CALENDAR},
+                            1);
+                }
             }
         }
+
     }
 
     public Date addDays(Date fecha, int dias) {
@@ -444,8 +528,10 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
     }
 
     @Override
-    public void onRegisterSubProcessCompleted() {
+    public void onRegisterSubProcessCompleted(SubProceso subProceso) {
         contadoSubProcesosRegistrados++;
+
+        addEvent(subProceso.getIdProceso(),subProceso);
         if(recurrency==contadoSubProcesosRegistrados){
             System.out.println("sub proceso numero "+contadoSubProcesosRegistrados);
             procesosCon.insert(proceso);
@@ -540,9 +626,59 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
         viewPrevio=view;
     }
     private void addEvent(String m_selectedCalendarId, SubProceso subProceso) {
+        Uri l_calendars;
+        //getContentResolver().delete(l_calendars,"_id=0",null);
+        String[] l_projection = new String[]{"_id", CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,CalendarContract.Calendars.ACCOUNT_NAME};
+        String[] l_projection2 = new String[]{"_id", CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,CalendarContract.Calendars.OWNER_ACCOUNT};
+        String idcalendario="1";
+        String emailCalendar="";
+        if (Build.VERSION.SDK_INT >= 8) {
+            l_calendars = Uri.parse("content://com.android.calendar/calendars");
+        } else {
+            l_calendars = Uri.parse("content://calendar/calendars");
+        }
+        Cursor l_managedCursor = getContentResolver().query(l_calendars,l_projection,null, null, null);
+        if (l_managedCursor.moveToFirst()) {
+            String l_calName;
+            String l_calId;
+
+            int l_cnt = 0;
+            int l_nameCol = l_managedCursor.getColumnIndex(l_projection[1]);
+            int l_idCol = l_managedCursor.getColumnIndex(l_projection[0]);
+            int l_accountCol = l_managedCursor.getColumnIndex(l_projection[2]);
+            do {
+                l_calName = l_managedCursor.getString(l_nameCol);
+                l_calId = l_managedCursor.getString(l_idCol);
+                if(emailCalendar.equals("")) {
+                    emailCalendar = l_managedCursor.getString(l_accountCol);
+                }
+                ++l_cnt;
+            } while (l_managedCursor.moveToNext());
+            System.out.println(l_cnt);
+        }
+        System.out.println(emailCalendar);
+        Cursor l_managedCursor2 = getContentResolver().query(l_calendars,l_projection2,CalendarContract.Calendars.OWNER_ACCOUNT+"='"+emailCalendar+"'", null, null);
+        if (l_managedCursor2.moveToFirst()) {
+            String l_calName;
+            String l_calId;
+
+            int l_cnt = 0;
+            int l_nameCol = l_managedCursor2.getColumnIndex(l_projection[1]);
+            int l_idCol = l_managedCursor2.getColumnIndex(l_projection[0]);
+            int l_accountCol = l_managedCursor2.getColumnIndex(l_projection[2]);
+            do {
+
+                l_calId = l_managedCursor2.getString(l_idCol);
+                idcalendario=l_calId;
+                ++l_cnt;
+            } while (l_managedCursor2.moveToNext());
+            System.out.println(l_cnt);
+        }
+
 
             ContentValues l_event = new ContentValues();
-            l_event.put("calendar_id", "1");
+            l_event.put(CalendarContract.Events.ORIGINAL_ID,m_selectedCalendarId);
+            l_event.put("calendar_id",idcalendario);
             l_event.put("title", getString(R.string.recordatory_title)+proceso.getNombre());
             l_event.put("description", getString(R.string.thisisarecordatory) + subProceso.getNombre());
             l_event.put("eventLocation", "@home");//Por ver o quitar
@@ -564,8 +700,8 @@ public class NewProcessActivity extends AppCompatActivity implements SubProcesos
             } else {
                 l_eventUri = Uri.parse("content://calendar/events");
             }
-            Uri l_uri = this.getContentResolver().insert(l_eventUri, l_event);
-            Log.v("++++++test", l_uri.toString());
+            //Uri l_uri = this.getContentResolver().insert(l_eventUri, l_event);
+            //Log.v("++++++test", l_uri.toString());
 
     }
 }

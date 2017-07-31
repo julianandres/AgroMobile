@@ -1,23 +1,35 @@
 package com.example.julian.agromobile;
 
+import android.Manifest;
+import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.PersistableBundle;
+import android.provider.CalendarContract;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.support.design.widget.FloatingActionButton;
 import android.widget.ImageView;
@@ -55,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
     FloatingActionButton btnInitProces;
     TextView emptyView;
-
+    Boolean permisosRead,permisosWrite;
     NavigationView nav;
     DrawerLayout drawer;
     ProcesosAdapter procesoAdapter;
@@ -76,7 +88,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         preferences= getSharedPreferences("pref",MODE_PRIVATE);
         editor=preferences.edit();
-
+        permisosRead=false;
+        permisosWrite=false;
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosRead=true;
+        }
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosWrite=true;
+        }
+        if(!permisosWrite&&!permisosRead){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR},
+                    1);
+        }else {
+            if (!permisosWrite) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_CALENDAR},
+                        1);
+            }
+            if(!permisosRead){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CALENDAR},
+                        1);
+            }
+        }
         usuarioLogin=preferences.getString(LoginActivity.KEY_USER,"-1");
         if(!usuarioLogin.equals("-1")) {
             btnInitProces = (FloatingActionButton) findViewById(R.id.fab);
@@ -116,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userName.setText(preferences.getString(KEY_USER_NAME, ""));
             userMail.setText(preferences.getString(KEY_USER_MAIL, ""));
             String urlImage = preferences.getString(AppUtil.USER_IMG, "");
-
+            registerForContextMenu(recyclerView);
 
         }else{
             Intent intent = new Intent(this, LoginActivity.class);
@@ -124,6 +159,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
+    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getMenuInflater().inflate(R.menu.menu_de_aeronaves, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        final int pos;
+        permisosRead=false;
+        permisosWrite=false;
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosRead=true;
+        }
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALENDAR)== PackageManager.PERMISSION_GRANTED) {
+            permisosWrite=true;
+        }
+        if(permisosRead&&permisosWrite){
+            try {
+                pos=((ProcesosAdapter)recyclerView.getAdapter()).getPosition();
+            } catch (Exception e) {
+                Log.d("", e.getLocalizedMessage(), e);
+                return super.onContextItemSelected(item);
+            }
+            switch (item.getItemId()){
+                case R.id.action_delete:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Eliminar"+dataProcces.get(pos).getNombre());
+                    builder.setTitle("Eliminar Proceso?");
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }});
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            procesosCon.delete(dataProcces.get(pos));
+                            deleteEventsByIdProcess(dataProcces.get(pos));
+                        }
+                    }).create().show();
+                    break;
+            }
+        }else{
+            if(!permisosWrite&&!permisosRead){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CALENDAR,Manifest.permission.WRITE_CALENDAR},
+                        1);
+            }else {
+                if (!permisosWrite) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_CALENDAR},
+                            1);
+                }
+                if(!permisosRead){
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CALENDAR},
+                            1);
+                }
+            }
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -255,7 +353,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onRegisterProcessCompleted() {
+        procesosCon.getAllProcess(usuarioLogin);
+    }
+    public boolean deleteEventsByIdProcess(Proceso proceso){
+        Uri l_calendars;
+        //getContentResolver().delete(l_calendars,"_id=0",null);
+        String[] l_projection = new String[]{"title", CalendarContract.Events.ORIGINAL_ID, "dtend"};
 
+
+        if (Build.VERSION.SDK_INT >= 8) {
+            l_calendars = Uri.parse("content://com.android.calendar/events");
+        } else {
+            l_calendars = Uri.parse("content://calendar/events");
+        }
+        Cursor l_managedCursor = getContentResolver().query(l_calendars,l_projection,CalendarContract.Events.ORIGINAL_ID+"="+proceso.getId(), null, null);
+        if (l_managedCursor.moveToFirst()) {
+
+
+            String l_calName;
+            String l_calId;
+            int l_cnt = 0;
+            int original_id = l_managedCursor.getColumnIndex(l_projection[1]);
+            int l_idCol = l_managedCursor.getColumnIndex(l_projection[0]);
+            do {
+                l_calName = l_managedCursor.getString(original_id);
+                l_calId = l_managedCursor.getString(l_idCol);
+                ++l_cnt;
+            } while (l_managedCursor.moveToNext());
+            System.out.println(l_cnt);
+        }
+        Uri deleteUri = null;
+       int  deletes = getContentResolver().delete(l_calendars,CalendarContract.Events.ORIGINAL_ID+"="+proceso.getId(),null);
+        return false;
     }
 
     @Override

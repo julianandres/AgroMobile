@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +24,7 @@ import java.util.List;
  * Created by JULIAN on 04/12/2016.
  */
 
-public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener, View.OnCreateContextMenuListener {
 
     static final int VIEW_SPAN = 0;
     static final int VIEW_NOSPAN = 1;
@@ -33,7 +35,15 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public ProcesosAdapter(Context context,List<Proceso> data) {
         this.context = context;
         this.data = data;
+    }
+    private int position;
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     @Override
@@ -55,10 +65,22 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
+    }
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         Proceso p = data.get(position);
-
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                setPosition(holder.getPosition());
+                return false;
+            }
+        });
         if(holder instanceof ProcesoSpanViewHolder ){
             ProcesoSpanViewHolder spanHolder = (ProcesoSpanViewHolder) holder;
             spanHolder.nombre.setText(p.getNombre());
@@ -108,12 +130,21 @@ public class ProcesosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void setOnItemClick(RecyclerView recyclerView, OnItemClick onItemClick) {
         this.recyclerView = recyclerView;
         this.onItemClick = onItemClick;
+        recyclerView.setOnCreateContextMenuListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int position = recyclerView.getChildAdapterPosition(v);
         onItemClick.onItemClick(position);
+    }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        //menuInfo is null
+        menu.add(Menu.NONE, R.id.action_delete,
+                Menu.NONE, "Eliminar");
     }
 
     public interface OnItemClick {
